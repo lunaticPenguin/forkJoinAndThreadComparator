@@ -1,8 +1,10 @@
 package main;
 
+import javax.swing.SwingUtilities;
+
 /**
  * Classe principale (point d'entrée dans l'application)
- * @author Bob
+ * @author Corentin Legros
  *
  */
 public final class Main {
@@ -11,8 +13,6 @@ public final class Main {
 	 * @param args
 	 */
 	public static void main(String[] args) {
-		// TODO Auto-generated method stub
-
+		SwingUtilities.invokeLater(new App());
 	}
-
 }
