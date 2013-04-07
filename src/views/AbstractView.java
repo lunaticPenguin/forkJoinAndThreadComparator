@@ -20,4 +20,22 @@ public abstract class AbstractView implements Observer {
 	public AbstractView(AbstractModel model) {
 		refModel = model;
 	}
+
+	/**
+	 * Get the model bound to this view
+	 * @return AbstractModel the model
+	 */
+	public AbstractModel getModel() {
+		return refModel;
+	}
+
+	/**
+	 * Get the controller bound to this view
+	 * @return AbstractController the controller
+	 */
+	public AbstractController getController() {
+		return refController;
+	}
+	
+	
 }
