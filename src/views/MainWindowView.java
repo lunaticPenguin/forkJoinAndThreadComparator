@@ -13,11 +13,11 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
-import views.listeners.AbstractListener;
-import views.listeners.AlgorithmsProcessListener;
-import views.listeners.ChosenFileButtonListener;
-import views.listeners.ProcessButtonListener;
-import views.listeners.ResetButtonListener;
+import controllers.listeners.AbstractListener;
+import controllers.listeners.AlgorithmsProcessListener;
+import controllers.listeners.ChosenFileButtonListener;
+import controllers.listeners.ProcessButtonListener;
+import controllers.listeners.ResetButtonListener;
 
 import controllers.AppController;
 
