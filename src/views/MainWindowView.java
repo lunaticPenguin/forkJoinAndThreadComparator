@@ -13,7 +13,7 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
-import views.listeners.AbstractListener;
+import views.listeners.AbstractActionListener;
 import views.listeners.AlgorithmsProcessListener;
 import views.listeners.ChosenFileButtonListener;
 import views.listeners.ProcessButtonListener;
@@ -34,14 +34,6 @@ public class MainWindowView extends AbstractView {
 	/**
 	 * Static class fields which defined combobox array indexes
 	 */
-	public final static int ALGORITHM_TYPE_UNSELECTED = 0;
-	public final static int ALGORITHM_TYPE_BINARISATION = 1;
-	public final static int ALGORITHM_TYPE_CONVOLUTION = 2;
-	
-
-	public final static int PROCESS_TYPE_UNSELECTED = 0;
-	public final static int PROCESS_TYPE_THREAD = 1;
-	public final static int PROCESS_TYPE_FORKJOIN = 2;
 	
 	
 	
@@ -66,7 +58,7 @@ public class MainWindowView extends AbstractView {
 	
 	public MainWindowView(AbstractModel model) {
 		super(model);
-		refController = new AppController();
+		refController = new AppController(model, this);
 		buildFrameUI();
 	}
 
@@ -98,7 +90,7 @@ public class MainWindowView extends AbstractView {
 		actionPanel = new JPanel();
 		actionPanel.setLayout(new FlowLayout(FlowLayout.LEFT));
 		
-		AbstractListener<MainWindowView> aPListener = new AlgorithmsProcessListener(this);
+		AbstractActionListener<MainWindowView> aPListener = new AlgorithmsProcessListener(this);
 		typesAlgorithmComboBox = new JComboBox<String>(new String[]{"Algorithm type", "Binarisation"}); // , "Convolution"
 		typesAlgorithmComboBox.addActionListener(aPListener);
 		typesProcessComboBox = new JComboBox<String>(new String[]{"Process type", "Thread"}); // , "ForkJoin"

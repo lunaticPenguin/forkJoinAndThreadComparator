@@ -8,4 +8,9 @@ import java.util.Observable;
  */
 public abstract class AbstractModel extends Observable {
 	
+	protected Object data;
+
+	public abstract Object getData();
+	
+	public abstract void setData(Object data);
 }

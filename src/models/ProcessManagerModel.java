@@ -10,4 +10,17 @@ public class ProcessManagerModel extends AbstractModel {
 	public ProcessManagerModel() {
 		
 	}
+	
+	public void setData(PictureParts data) {
+		this.data = data;
+	}
+	
+	public PictureParts getData() {
+		return (PictureParts) data;
+	}
+
+	@Override
+	public void setData(Object data) {
+		this.data = (PictureParts) data;
+	}
 }
