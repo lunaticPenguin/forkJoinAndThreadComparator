@@ -78,7 +78,7 @@ final public class Timer {
 	public void addData(int dataType, String file, Integer test_num, Integer part_num, int percent) {
 		
 		HashMap<String, ArrayList<ArrayList<HashMap<Integer, Integer>>>> data;
-		if (dataType == IProcessAdapter.TYPE_PROCESS_THREAD) {
+		if (dataType == IProcessAdapter.PROCESS_TYPE_THREAD) {
 			data = threadData;
 		} else {
 			data = fjData;
