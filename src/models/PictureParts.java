@@ -76,7 +76,7 @@ public class PictureParts {
 	public BufferedImage getPart(int x) {
 		
 		if (parts != null) {
-			if (x > 0 && x < parts.length) { // rows range test
+			if (x >= 0 && x < parts.length) { // rows range test
 				return parts[x];
 			}
 		}
