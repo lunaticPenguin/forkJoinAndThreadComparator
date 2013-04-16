@@ -8,10 +8,11 @@ package process;
  * @author Corentin Legros
  *
  */
-public interface IProcessAdapter {
+public interface IProcessAdapter<T> {
 	
-	public final static int TYPE_PROCESS_THREAD = 0;
-	public final static int TYPE_PROCESS_WORKERS = 1;
+	public final static int PROCESS_TYPE_UNSELECTED = 0;
+	public final static int PROCESS_TYPE_THREAD = 1;
+	public final static int PROCESS_TYPE_FORKJOIN = 2;
 	
 	public void execute();
 }

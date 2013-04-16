@@ -10,14 +10,14 @@ import java.awt.event.ActionListener;
  *
  * @param Custom view class <T>
  */
-public abstract class AbstractListener<T> implements ActionListener {
+public abstract class AbstractActionListener<T> implements ActionListener {
 	
 	/**
 	 * Parent view object which contains the widget where an action was performed
 	 */
 	protected T parentView;
 	
-	public AbstractListener(T parentView) {
+	public AbstractActionListener(T parentView) {
 		this.parentView = parentView;
 	}
 }

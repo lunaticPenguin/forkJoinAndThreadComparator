@@ -10,7 +10,7 @@ import views.MainWindowView;
  * @author Corentin Legros
  *
  */
-public class ResetButtonListener extends AbstractListener<MainWindowView> {
+public class ResetButtonListener extends AbstractActionListener<MainWindowView> {
 	
 	public ResetButtonListener(MainWindowView parentView) {
 		super(parentView);
