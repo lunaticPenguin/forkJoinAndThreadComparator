@@ -8,6 +8,8 @@ import java.io.IOException;
 import javax.imageio.ImageIO;
 import javax.swing.JFileChooser;
 
+import models.PictureParts;
+
 import tools.Log;
 import views.MainWindowView;
 import views.filters.ImageFileFilter;
@@ -18,7 +20,7 @@ import views.filters.ImageFileFilter;
  * @author Corentin Legros
  *
  */
-public class ChosenFileButtonListener extends AbstractListener<MainWindowView>{
+public class ChosenFileButtonListener extends AbstractActionListener<MainWindowView>{
 
 	protected JFileChooser dialogFileChooser;
 	
@@ -56,6 +58,8 @@ public class ChosenFileButtonListener extends AbstractListener<MainWindowView>{
 
 				parentView.setImageToDisplay(tmpImg);
 				parentView.getImagePanel().updateImage(tmpImg);
+				parentView.getModel().setData(new PictureParts(tmpImg, 4));
+				
 				Log.info(String.format("File chosen : %s", loadedFile.getPath()));
 			}
 		}

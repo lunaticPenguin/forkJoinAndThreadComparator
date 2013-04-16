@@ -13,28 +13,34 @@ public class BinarisationAlgorithm extends AbstractAlgorithm {
 	protected int threshold;
 	protected int indice;
 	
-	public BinarisationAlgorithm(BufferedImage imageToProcess) {
-		super(imageToProcess);
-		pixelsValue = new int[refPicture.getHeight() * refPicture.getWidth()];
+	protected BufferedImage data;
+	
+	public BinarisationAlgorithm() {
+		super();
+	}
+	
+	public void setData(Object image) {
+		data = (BufferedImage) image;
+		pixelsValue = new int[data.getHeight() * data.getWidth()];
 		indice = 0;
 	}
 	
 	@Override
 	public BufferedImage algo() {
 		
-		int widthPicture = refPicture.getWidth();
-		int heightPicture = refPicture.getHeight();
+		int widthPicture = data.getWidth();
+		int heightPicture = data.getHeight();
 		
 		for (int i = 0 ; i < heightPicture ; ++i) {
 			for (int j = 0 ; j < widthPicture ; ++j) {
-				if (refPicture.getRGB(j, i) > computeCumulativeThresold(refPicture.getRGB(j, i))) {
-					refPicture.setRGB(j, i, 0);
+				if (data.getRGB(j, i) > computeCumulativeThresold(data.getRGB(j, i))) {
+					data.setRGB(j, i, 0);
 				} else {
-					refPicture.setRGB(j, i, 1);
+					data.setRGB(j, i, 1);
 				}
 			}
 		}
-		return refPicture;
+		return data;
 	}
 	
 	protected int computeCumulativeThresold(int pixelValue) {
