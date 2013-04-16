@@ -1,21 +1,20 @@
 package process;
 
-import java.awt.image.BufferedImage;
-
-import algorithms.AbstractAlgorithm;
+import models.PictureParts;
 
 /**
  * This class play a role of threads manager in addition to be an adapter instance.
  * @author Corentin Legros
  *
  */
-public class ProcessThreadAdapter extends AbstractProcessAdapter<BufferedImage[][]> {
+public class ProcessThreadAdapter extends AbstractProcessAdapter<PictureParts> {
 	
-	public ProcessThreadAdapter(AbstractAlgorithm algorithm, BufferedImage[][] data) {
-		super(algorithm, data);
+	public ProcessThreadAdapter() {
+		super();
 	}
 
 	public void execute() {
-		
+		processAlgorithm.setData(this.data.getPart(0));
+		processAlgorithm.algo();
 	}
 }
