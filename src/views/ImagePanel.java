@@ -29,6 +29,7 @@ public class ImagePanel extends JComponent {
 	public void updateImage(BufferedImage imageToDisplay) {
 		refImageToDisplay = imageToDisplay;
 		setVisible(imageToDisplay != null);
+		this.repaint();
 	}
 	
 	/**
