@@ -85,4 +85,12 @@ public class PictureParts extends AbstractDataContainer<BufferedImage> {
 	public BufferedImage[] getAllParts() {
 		return parts;
 	}
+	
+	/**
+	 * Get image parts number
+	 * @return int
+	 */
+	public int getPartsNumber() {
+		return parts.length;
+	}
 }

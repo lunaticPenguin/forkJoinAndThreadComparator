@@ -2,6 +2,8 @@ package algorithms;
 
 import java.awt.image.BufferedImage;
 
+import tools.Log;
+
 /**
  * Algorithm which transform a picture as a binary-color picture
  * using thresholding method.
@@ -55,5 +57,18 @@ public class BinarisationAlgorithm extends AbstractAlgorithm {
 		++indice;
 		return threshold;
 	}
-
+	
+	public Object clone() {
+		System.out.println("algo cloned!");
+		
+		BinarisationAlgorithm algorithm = null;
+	    try {
+	    	algorithm = (BinarisationAlgorithm) super.clone();
+			algorithm.setData(this.data);
+			algorithm.setDataContainer(this.dataContainer);
+	    } catch(CloneNotSupportedException cnse) {
+	      	Log.warn("Fail during attempt algorithm cloning");
+	    }
+		return algorithm;
+	}
 }

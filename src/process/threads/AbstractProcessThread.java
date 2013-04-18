@@ -1,15 +1,11 @@
-package process;
+package process.threads;
 
 import algorithms.AbstractAlgorithm;
 
-public abstract class AbstractProcessAdapter<T> implements IProcessAdapter<T> {
+public abstract class AbstractProcessThread<T> extends Thread {
 	
 	protected AbstractAlgorithm processAlgorithm;
 	protected T data;
-	
-	public AbstractProcessAdapter() {
-		
-	}
 	
 	/**
 	 * This method allow developers to specify the algorithm which will be used,
@@ -17,7 +13,12 @@ public abstract class AbstractProcessAdapter<T> implements IProcessAdapter<T> {
 	 * @param T data
 	 */
 	public void setAlgorithm(AbstractAlgorithm algorithm) {
-		this.processAlgorithm = algorithm;
+		try {
+			this.processAlgorithm = (AbstractAlgorithm) algorithm.clone();
+		} catch (CloneNotSupportedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 	
 	/**
@@ -27,8 +28,5 @@ public abstract class AbstractProcessAdapter<T> implements IProcessAdapter<T> {
 	 */
 	public void setData(T data) {
 		this.data = data;
-		init();
 	}
-	
-	protected abstract void init();
 }

@@ -6,7 +6,7 @@ import models.AbstractDataContainer;
 
 import tools.Timer;
 
-public abstract class AbstractAlgorithm {
+public abstract class AbstractAlgorithm implements Cloneable {
 	
 	public final static int ALGORITHM_TYPE_UNSELECTED = 0;
 	public final static int ALGORITHM_TYPE_BINARISATION = 1;
@@ -41,5 +41,9 @@ public abstract class AbstractAlgorithm {
 	
 	public void setDataContainer(AbstractDataContainer<?> dataContainer) {
 		this.dataContainer = dataContainer;
+	}
+	
+	public Object clone() throws CloneNotSupportedException {
+		return super.clone();
 	}
 }
