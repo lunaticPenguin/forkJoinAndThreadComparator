@@ -1,6 +1,8 @@
 package controllers.listeners;
 
 import java.awt.event.ActionEvent;
+
+import controllers.AppController;
 import views.MainWindowView;
 
 /**
@@ -11,7 +13,7 @@ import views.MainWindowView;
  * @author Corentin Legros
  *
  */
-public class ProcessButtonListener extends AbstractListener<MainWindowView> {
+public class ProcessButtonListener extends AbstractActionListener<MainWindowView> {
 	
 	public ProcessButtonListener(MainWindowView parentView) {
 		super(parentView);
@@ -19,6 +21,12 @@ public class ProcessButtonListener extends AbstractListener<MainWindowView> {
 	
 	
 	public void actionPerformed(ActionEvent e) {
+		AppController controller = (AppController) parentView.getController();
+		controller.setAlgorithmType(parentView.getTypesAlgorithmComboBox().getSelectedIndex());
+		controller.setProcessType(parentView.getTypesProcessComboBox().getSelectedIndex());
+		
+		controller.launchProcess();
+		
 		System.out.println("Need to launch process :3");
 	}
 }

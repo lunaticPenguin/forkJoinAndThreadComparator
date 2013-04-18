@@ -9,13 +9,18 @@ import java.awt.image.BufferedImage;
  */
 public class ConvolutionAlgorithm extends AbstractAlgorithm  {
 
-	public ConvolutionAlgorithm(BufferedImage imageToProcess) {
-		super(imageToProcess);
+	public ConvolutionAlgorithm() {
 	}
 
 	@Override
 	public BufferedImage algo() {
 		return null;
+	}
+
+	@Override
+	public void setData(Object data) {
+		// TODO Auto-generated method stub
+		
 	}
 	
 }
