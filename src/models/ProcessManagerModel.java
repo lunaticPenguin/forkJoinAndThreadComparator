@@ -29,9 +29,10 @@ public class ProcessManagerModel extends AbstractModel {
 
 	@Override
 	/**
-	 * Allow to notify observers (views & model) to get notified of changes in model
+	 * Allow to notify observers (view & controller) to get notified about changes in model
 	 */
 	public void update(Observable o, Object arg) {
+		setChanged();
 		notifyObservers();
 	}
 }

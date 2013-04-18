@@ -38,8 +38,8 @@ public class BinarisationAlgorithm extends AbstractAlgorithm {
 				} else {
 					data.setRGB(j, i, 1);
 				}
-				this.dataContainer.notifyObservers();
 			}
+			this.dataContainer.update();
 		}
 		return data;
 	}
