@@ -21,5 +21,6 @@ public abstract class AbstractController implements Observer {
 	public AbstractController(AbstractModel model, AbstractView view) {
 		refModel = model;
 		refView = view;
+		refModel.addObserver(this);
 	}
 }

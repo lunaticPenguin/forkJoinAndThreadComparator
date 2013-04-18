@@ -19,6 +19,7 @@ public abstract class AbstractView implements Observer {
 	
 	public AbstractView(AbstractModel model) {
 		refModel = model;
+		refModel.addObserver(this);
 	}
 
 	/**

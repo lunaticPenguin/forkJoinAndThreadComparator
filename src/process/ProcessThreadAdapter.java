@@ -15,6 +15,7 @@ public class ProcessThreadAdapter extends AbstractProcessAdapter<PictureParts> {
 
 	public void execute() {
 		processAlgorithm.setData(this.data.getPart(0));
+		processAlgorithm.setDataContainer(this.data);
 		processAlgorithm.algo();
 	}
 }
