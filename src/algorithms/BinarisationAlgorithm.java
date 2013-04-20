@@ -1,5 +1,6 @@
 package algorithms;
 
+import java.awt.Color;
 import java.awt.image.BufferedImage;
 
 import tools.Log;
@@ -17,6 +18,7 @@ public class BinarisationAlgorithm extends AbstractAlgorithm {
 	
 	public BinarisationAlgorithm() {
 		super();
+		threshold = -1;
 	}
 	
 	public void setData(Object image) {
@@ -33,10 +35,10 @@ public class BinarisationAlgorithm extends AbstractAlgorithm {
 		
 		for (int i = 0 ; i < heightPicture ; ++i) {
 			for (int j = 0 ; j < widthPicture ; ++j) {
-				if (((BufferedImage) data).getRGB(j, i) > computeCumulativeThresold(((BufferedImage) data).getRGB(j, i))) {
-					((BufferedImage) data).setRGB(j, i, 0);
+				if (((BufferedImage) data).getRGB(j, i) < getThreshold()) {
+					((BufferedImage) data).setRGB(j, i, Color.BLACK.getRGB());
 				} else {
-					((BufferedImage) data).setRGB(j, i, 1);
+					((BufferedImage) data).setRGB(j, i, Color.WHITE.getRGB());
 				}
 			}
 			this.dataContainer.update();
@@ -44,15 +46,38 @@ public class BinarisationAlgorithm extends AbstractAlgorithm {
 		return ((BufferedImage) data);
 	}
 	
-	protected int computeCumulativeThresold(int pixelValue) {
-		pixelsValue[indice] = pixelValue;
+	
+	/**
+	 * This method can compute the threshold for each buffered image.
+	 * To get a really good defined image using this method, the solution is to increase the
+	 * sub-image number (by adding new thread(s)/worker(s)).
+	 * 
+	 * Another solution is to split each sub-image into multiple zones which have to
+	 * compute their respective threshold. Then, using the x, y pixel position
+	 * we should be able to compare the pixel with the zone threshold.
+	 * 
+	 * @return int threshold
+	 */
+	protected int getThreshold() {
 		
-		int average = 0;
-		for (int i = 0 ; i < indice ; ++i) {
-			average += pixelsValue[i];
+		if (threshold == -1) {
+			
+			int min = 0;
+			int max = 0;
+			int currentValue = 0;
+			
+			int widthPicture = ((BufferedImage) data).getWidth();
+			int heightPicture = ((BufferedImage) data).getHeight();
+			
+			for (int i = 0 ; i < heightPicture ; ++i) {
+				for (int j = 0 ; j < widthPicture ; ++j) {
+					currentValue = ((BufferedImage) data).getRGB(j, i);
+					min = (currentValue < min) ? currentValue : min;
+					max = (currentValue > max) ? currentValue : max;
+				}
+			}
+			threshold = (min - max) / 2;
 		}
-		threshold = (threshold + average / (indice + 1)) / 2;
-		++indice;
 		return threshold;
 	}
 	

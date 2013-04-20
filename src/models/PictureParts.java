@@ -25,39 +25,40 @@ public class PictureParts extends AbstractDataContainer<BufferedImage> {
 	public PictureParts(BufferedImage picture, int nbParts) {
 		
 		data = picture;
-		nbParts = nbParts <= 0 || nbParts > 10 ? 2 : nbParts;
-		
-		parts = new BufferedImage[nbParts];
-		
 		init(nbParts);
 	}
 	
 	
 	/**
-	 * Initialize internal data
-	 * 
+	 * Initialize internal data with extra pixels handling
 	 * @param int nbParts number parts
 	 */
 	protected void init(int nbParts) {
 		
+		nbParts = nbParts <= 0 || nbParts > 10 ? 2 : nbParts;
+		
 		int heightPart = (int) data.getHeight() / nbParts;
+		
+		boolean hasAdditionalPart = false;
+		if (data.getHeight() % heightPart != 0) {
+			System.out.println("extra pixels handling :)");
+			hasAdditionalPart = true;
+			nbParts += 1;
+		}
+
+		parts = new BufferedImage[nbParts];
+		nbParts = (hasAdditionalPart) ? nbParts - 1 : nbParts;
 		
 		int posTileY;
 		
 		for(int numTileY = 0 ; numTileY < nbParts ; numTileY++) {
 			
 			posTileY = heightPart * numTileY;
-			
-			/*System.out.println
-			(
-				"Params de l'image (" + this.buffPicture.getWidth() + "; " + this.buffPicture.getHeight() +") \n" +
-				"Extraction de la Tile ("+ numTileX +"; "+ numTileY +") \n" +
-				"Taille de la Tile (" + sizeWidth + "; " + sizeHeight + ")\n" +
-				"Position de la Tile (" + posTileX +  "; " + posTileY + ")" +
-				"Taille tableau (" + this.pieces.length + "; " + this.pieces + ")"
-			);*/
-			
 			parts[numTileY] = data.getSubimage(0, posTileY, data.getWidth(), heightPart);
+		}
+		
+		if (hasAdditionalPart) {
+			parts[nbParts] = data.getSubimage(0, heightPart * (nbParts), data.getWidth(), data.getHeight() % heightPart);
 		}
 	}
 	
