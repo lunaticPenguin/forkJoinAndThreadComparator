@@ -9,12 +9,7 @@ import java.awt.image.BufferedImage;
  * @author Corentin Legros
  *
  */
-public class PictureParts {
-	
-	/**
-	 * Picture used as reference to build all image parts
-	 */
-	private BufferedImage refImage;
+public class PictureParts extends AbstractDataContainer<BufferedImage> {
 	
 	/**
 	 * Parts of the pictures
@@ -29,7 +24,7 @@ public class PictureParts {
 	 */
 	public PictureParts(BufferedImage picture, int nbParts) {
 		
-		refImage = picture;
+		data = picture;
 		nbParts = nbParts <= 0 || nbParts > 10 ? 2 : nbParts;
 		
 		parts = new BufferedImage[nbParts];
@@ -45,7 +40,7 @@ public class PictureParts {
 	 */
 	protected void init(int nbParts) {
 		
-		int heightPart = (int) refImage.getHeight() / nbParts;
+		int heightPart = (int) data.getHeight() / nbParts;
 		
 		int posTileY;
 		
@@ -62,7 +57,7 @@ public class PictureParts {
 				"Taille tableau (" + this.pieces.length + "; " + this.pieces + ")"
 			);*/
 			
-			parts[numTileY] = refImage.getSubimage(0, posTileY, refImage.getWidth(), heightPart);
+			parts[numTileY] = data.getSubimage(0, posTileY, data.getWidth(), heightPart);
 		}
 	}
 	
@@ -89,5 +84,13 @@ public class PictureParts {
 	 */
 	public BufferedImage[] getAllParts() {
 		return parts;
+	}
+	
+	/**
+	 * Get image parts number
+	 * @return int
+	 */
+	public int getPartsNumber() {
+		return parts.length;
 	}
 }

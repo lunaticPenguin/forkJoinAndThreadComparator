@@ -1,5 +1,8 @@
 package process;
 
+import java.util.ArrayList;
+import process.threads.ProcessPictureThread;
+
 import models.PictureParts;
 
 /**
@@ -9,12 +12,29 @@ import models.PictureParts;
  */
 public class ProcessThreadAdapter extends AbstractProcessAdapter<PictureParts> {
 	
+	protected ArrayList<ProcessPictureThread> threads;
+	
 	public ProcessThreadAdapter() {
 		super();
+		threads = new ArrayList<ProcessPictureThread>();
+	}
+	
+	protected void init() {
+		threads.clear();
+		ProcessPictureThread tmpRefThread;
+		for (int i = 0 ; i < data.getPartsNumber() ; ++i) {
+			tmpRefThread = new ProcessPictureThread();
+			tmpRefThread.setAlgorithm(processAlgorithm);
+			tmpRefThread.setData(data);
+			tmpRefThread.setPartNumber(i);
+			threads.add(tmpRefThread);
+		}
 	}
 
 	public void execute() {
-		processAlgorithm.setData(this.data.getPart(0));
-		processAlgorithm.algo();
+		init();
+		for (int i = 0 ; i < data.getPartsNumber() ; ++i) {
+			threads.get(i).start();
+		}
 	}
 }

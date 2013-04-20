@@ -268,5 +268,6 @@ public class MainWindowView extends AbstractView {
 	 */
 	public void update(Observable arg0, Object arg1) {
 		// here will come the cool stuff :)
+		imagePanel.repaint();
 	}
 }

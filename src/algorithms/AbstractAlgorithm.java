@@ -2,7 +2,14 @@ package algorithms;
 
 import java.awt.image.BufferedImage;
 
-public abstract class AbstractAlgorithm {
+import models.AbstractDataContainer;
+
+public abstract class AbstractAlgorithm implements Cloneable {
+	
+	/**
+	 * Reference of the data container (plays full role of an observable model)
+	 */
+	protected AbstractDataContainer<?> dataContainer;
 	
 	public final static int ALGORITHM_TYPE_UNSELECTED = 0;
 	public final static int ALGORITHM_TYPE_BINARISATION = 1;
@@ -17,8 +24,9 @@ public abstract class AbstractAlgorithm {
 	 * Constructor
 	 * @param imageToProcess
 	 */
+
 	public AbstractAlgorithm() {}
-	
+
 	public abstract BufferedImage algo();
 	
 	public Object getData() {
@@ -26,4 +34,12 @@ public abstract class AbstractAlgorithm {
 	}
 	
 	public abstract void setData(Object data);
+	
+	public void setDataContainer(AbstractDataContainer<?> dataContainer) {
+		this.dataContainer = dataContainer;
+	}
+	
+	public Object clone() throws CloneNotSupportedException {
+		return super.clone();
+	}
 }

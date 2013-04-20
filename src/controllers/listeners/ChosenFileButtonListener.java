@@ -9,6 +9,7 @@ import javax.imageio.ImageIO;
 import javax.swing.JFileChooser;
 
 import models.PictureParts;
+import models.ProcessManagerModel;
 
 import tools.Log;
 import views.MainWindowView;
@@ -58,7 +59,10 @@ public class ChosenFileButtonListener extends AbstractActionListener<MainWindowV
 
 				parentView.setImageToDisplay(tmpImg);
 				parentView.getImagePanel().updateImage(tmpImg);
-				parentView.getModel().setData(new PictureParts(tmpImg, 4));
+				
+				// this fix a fucking bug!
+				ProcessManagerModel model = (ProcessManagerModel) parentView.getModel();
+				model.setData(new PictureParts(tmpImg, 4));
 				
 				Log.info(String.format("File chosen : %s", loadedFile.getPath()));
 			}
