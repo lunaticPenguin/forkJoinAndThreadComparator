@@ -14,5 +14,8 @@ public interface IProcessAdapter<T> {
 	public final static int PROCESS_TYPE_THREAD = 1;
 	public final static int PROCESS_TYPE_FORKJOIN = 2;
 	
+	/**
+	 * This method is able to launch the divided process
+	 */
 	public void execute();
 }

@@ -81,19 +81,26 @@ public class AppController extends AbstractController {
 	}
 	
 	/**
-	 * This method is in charge of launching the process
+	 * This method is in charge of launching the process.
+	 * It sets all data to chosen algorithm and specified process adapter
 	 * 
 	 * @see ProcessButtonListener.actionPerformed()
 	 */
 	public void launchProcess() {
 		AbstractProcessAdapter<PictureParts> adapter;
 		adapter = availableAdapters.get(processType);
-		adapter.setAlgorithm(availableAlgorithms.get(algorithmType));
 		adapter.setData((PictureParts) refModel.getData());
+
+		availableAlgorithms.get(algorithmType).setDataContainer((PictureParts) refModel.getData());
+
+		// this line is here in order to set a valid algorithm state to clone it and then change the working part (for each thread/worker)
+		availableAlgorithms.get(algorithmType).setData(((PictureParts) refModel.getData()).getPart(0));
+		adapter.setAlgorithm(availableAlgorithms.get(algorithmType));
 		adapter.execute();
 	}
 	
 	public void update(Observable o, Object arg) {
-		
+		// here will be the timer management
+		// and all statistics generation of timing measures
 	}
 }

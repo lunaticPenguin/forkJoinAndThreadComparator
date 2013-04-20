@@ -20,6 +20,7 @@ public class ProcessThreadAdapter extends AbstractProcessAdapter<PictureParts> {
 	}
 	
 	protected void init() {
+		threads.clear();
 		ProcessPictureThread tmpRefThread;
 		for (int i = 0 ; i < data.getPartsNumber() ; ++i) {
 			tmpRefThread = new ProcessPictureThread();
@@ -31,7 +32,7 @@ public class ProcessThreadAdapter extends AbstractProcessAdapter<PictureParts> {
 	}
 
 	public void execute() {
-		
+		init();
 		for (int i = 0 ; i < data.getPartsNumber() ; ++i) {
 			threads.get(i).start();
 		}

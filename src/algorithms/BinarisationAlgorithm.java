@@ -15,35 +15,33 @@ public class BinarisationAlgorithm extends AbstractAlgorithm {
 	protected int threshold;
 	protected int indice;
 	
-	protected BufferedImage data;
-	
 	public BinarisationAlgorithm() {
 		super();
 	}
 	
 	public void setData(Object image) {
 		data = (BufferedImage) image;
-		pixelsValue = new int[data.getHeight() * data.getWidth()];
+		pixelsValue = new int[((BufferedImage) data).getHeight() * ((BufferedImage) data).getWidth()];
 		indice = 0;
 	}
 	
 	@Override
 	public BufferedImage algo() {
 		
-		int widthPicture = data.getWidth();
-		int heightPicture = data.getHeight();
+		int widthPicture = ((BufferedImage) data).getWidth();
+		int heightPicture = ((BufferedImage) data).getHeight();
 		
 		for (int i = 0 ; i < heightPicture ; ++i) {
 			for (int j = 0 ; j < widthPicture ; ++j) {
-				if (data.getRGB(j, i) > computeCumulativeThresold(data.getRGB(j, i))) {
-					data.setRGB(j, i, 0);
+				if (((BufferedImage) data).getRGB(j, i) > computeCumulativeThresold(((BufferedImage) data).getRGB(j, i))) {
+					((BufferedImage) data).setRGB(j, i, 0);
 				} else {
-					data.setRGB(j, i, 1);
+					((BufferedImage) data).setRGB(j, i, 1);
 				}
 			}
 			this.dataContainer.update();
 		}
-		return data;
+		return ((BufferedImage) data);
 	}
 	
 	protected int computeCumulativeThresold(int pixelValue) {
@@ -59,8 +57,6 @@ public class BinarisationAlgorithm extends AbstractAlgorithm {
 	}
 	
 	public Object clone() {
-		System.out.println("algo cloned!");
-		
 		BinarisationAlgorithm algorithm = null;
 	    try {
 	    	algorithm = (BinarisationAlgorithm) super.clone();

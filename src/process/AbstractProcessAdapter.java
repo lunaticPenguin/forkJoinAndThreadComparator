@@ -1,5 +1,6 @@
 package process;
 
+import models.AbstractDataContainer;
 import algorithms.AbstractAlgorithm;
 
 public abstract class AbstractProcessAdapter<T> implements IProcessAdapter<T> {
@@ -17,7 +18,8 @@ public abstract class AbstractProcessAdapter<T> implements IProcessAdapter<T> {
 	 * @param T data
 	 */
 	public void setAlgorithm(AbstractAlgorithm algorithm) {
-		this.processAlgorithm = algorithm;
+		processAlgorithm = algorithm;
+		processAlgorithm.setDataContainer((AbstractDataContainer<?>) data);
 	}
 	
 	/**
@@ -27,7 +29,6 @@ public abstract class AbstractProcessAdapter<T> implements IProcessAdapter<T> {
 	 */
 	public void setData(T data) {
 		this.data = data;
-		init();
 	}
 	
 	protected abstract void init();
