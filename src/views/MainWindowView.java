@@ -51,6 +51,7 @@ public class MainWindowView extends AbstractView {
 	protected JPanel actionPanel;
 	protected JComboBox<String> typesAlgorithmComboBox;
 	protected JComboBox<String> typesProcessComboBox;
+	protected JComboBox<String> numberWorkersComboBox;
 	protected JButton processButton;
 	
 	protected ImagePanel imagePanel;
@@ -96,12 +97,21 @@ public class MainWindowView extends AbstractView {
 		typesProcessComboBox = new JComboBox<String>(new String[]{"Process type", "Thread"}); // , "ForkJoin"
 		typesProcessComboBox.addActionListener(aPListener);
 		
+		String[] tmpArrayWN = new String[22];
+		tmpArrayWN[0] = "Workers number";
+		for (int i = 1 ; i < 21 ; ++i) {
+			tmpArrayWN[i] = String.valueOf(i);
+		}
+		numberWorkersComboBox = new JComboBox<String>(tmpArrayWN);
+		numberWorkersComboBox.addActionListener(aPListener);
+		
 		processButton = new JButton("Go!");
 		processButton.setEnabled(false);
 		processButton.addActionListener(new ProcessButtonListener(this));
 		
 		actionPanel.add(typesAlgorithmComboBox);
 		actionPanel.add(typesProcessComboBox);
+		actionPanel.add(numberWorkersComboBox);
 		actionPanel.add(processButton);
 		
 		
@@ -214,6 +224,14 @@ public class MainWindowView extends AbstractView {
 	 */
 	public void setTypesProcessComboBox(JComboBox<String> typesProcessComboBox) {
 		this.typesProcessComboBox = typesProcessComboBox;
+	}
+	
+
+	/**
+	 * @return the numberWorkersComboBox
+	 */
+	public JComboBox<String> getNWComboBox() {
+		return numberWorkersComboBox;
 	}
 
 	/**

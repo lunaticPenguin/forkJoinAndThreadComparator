@@ -2,6 +2,8 @@ package controllers.listeners;
 
 import java.awt.event.ActionEvent;
 
+import models.PictureParts;
+
 import controllers.AppController;
 import views.MainWindowView;
 
@@ -22,11 +24,19 @@ public class ProcessButtonListener extends AbstractActionListener<MainWindowView
 	
 	public void actionPerformed(ActionEvent e) {
 		AppController controller = (AppController) parentView.getController();
+		// set algorithm type
 		controller.setAlgorithmType(parentView.getTypesAlgorithmComboBox().getSelectedIndex());
+		
+		// set process type (threads/forkJoin)
 		controller.setProcessType(parentView.getTypesProcessComboBox().getSelectedIndex());
 		
+		// set threads/workers number
+		((PictureParts) controller.getRefModel().getData()).setPartsNumber((parentView.getNWComboBox().getSelectedIndex()));
+		
+		// then, the process is launched (through a delegation to the specified adapter which handle 
+		// the (previously chosen) algorithm work and the appropriate data choice
 		controller.launchProcess();
 		
-		System.out.println("Need to launch process :3");
+		System.out.println("Process launched :3");
 	}
 }

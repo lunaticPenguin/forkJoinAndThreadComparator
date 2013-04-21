@@ -62,7 +62,7 @@ public class ChosenFileButtonListener extends AbstractActionListener<MainWindowV
 				
 				// this fix a fucking bug!
 				ProcessManagerModel model = (ProcessManagerModel) parentView.getModel();
-				model.setData(new PictureParts(tmpImg, 4));
+				model.setData(new PictureParts(tmpImg));
 				
 				Log.info(String.format("File chosen : %s", loadedFile.getPath()));
 			}

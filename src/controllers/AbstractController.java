@@ -23,4 +23,32 @@ public abstract class AbstractController implements Observer {
 		refView = view;
 		refModel.addObserver(this);
 	}
+
+	/**
+	 * @return the refModel
+	 */
+	public AbstractModel getRefModel() {
+		return refModel;
+	}
+
+	/**
+	 * @param refModel the refModel to set
+	 */
+	public void setRefModel(AbstractModel refModel) {
+		this.refModel = refModel;
+	}
+
+	/**
+	 * @return the refView
+	 */
+	public AbstractView getRefView() {
+		return refView;
+	}
+
+	/**
+	 * @param refView the refView to set
+	 */
+	public void setRefView(AbstractView refView) {
+		this.refView = refView;
+	}
 }

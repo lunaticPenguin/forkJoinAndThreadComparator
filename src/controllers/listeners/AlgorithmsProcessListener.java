@@ -24,7 +24,8 @@ public class AlgorithmsProcessListener extends AbstractActionListener<MainWindow
 	public void actionPerformed(ActionEvent e) {
 		parentView.getProcessButton().setEnabled(false);
 		if (parentView.getTypesAlgorithmComboBox().getSelectedIndex() != AbstractAlgorithm.ALGORITHM_TYPE_UNSELECTED
-				&& parentView.getTypesProcessComboBox().getSelectedIndex() != IProcessAdapter.PROCESS_TYPE_UNSELECTED) {
+				&& parentView.getTypesProcessComboBox().getSelectedIndex() != IProcessAdapter.PROCESS_TYPE_UNSELECTED
+				&& parentView.getNWComboBox().getSelectedIndex() != 0) {
 			if (parentView.getImageToDisplay() != null) {
 				parentView.getProcessButton().setEnabled(true);
 			}

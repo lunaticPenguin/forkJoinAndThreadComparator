@@ -22,10 +22,8 @@ public class PictureParts extends AbstractDataContainer<BufferedImage> {
 	 * @param xParts number of cols
 	 * @param yParts number of rows
 	 */
-	public PictureParts(BufferedImage picture, int nbParts) {
-		
+	public PictureParts(BufferedImage picture) {
 		data = picture;
-		init(nbParts);
 	}
 	
 	
@@ -35,13 +33,10 @@ public class PictureParts extends AbstractDataContainer<BufferedImage> {
 	 */
 	protected void init(int nbParts) {
 		
-		nbParts = nbParts <= 0 || nbParts > 10 ? 2 : nbParts;
-		
 		int heightPart = (int) data.getHeight() / nbParts;
 		
 		boolean hasAdditionalPart = false;
 		if (data.getHeight() % heightPart != 0) {
-			System.out.println("extra pixels handling :)");
 			hasAdditionalPart = true;
 			nbParts += 1;
 		}
@@ -93,5 +88,13 @@ public class PictureParts extends AbstractDataContainer<BufferedImage> {
 	 */
 	public int getPartsNumber() {
 		return parts.length;
+	}
+	
+	/**
+	 * Set the parts number depending on the JComboBox choice
+	 * @param int nbParts
+	 */
+	public void setPartsNumber(int nbParts) {
+		init(nbParts);
 	}
 }
