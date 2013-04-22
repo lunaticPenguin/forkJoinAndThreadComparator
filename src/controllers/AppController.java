@@ -9,6 +9,7 @@ import algorithms.BinarisationAlgorithm;
 import process.AbstractProcessAdapter;
 import process.IProcessAdapter;
 import process.ProcessThreadAdapter;
+import process.ProcessWorkerAdapter;
 
 import views.AbstractView;
 
@@ -45,6 +46,7 @@ public class AppController extends AbstractController {
 		availableAdapters = new ArrayList<AbstractProcessAdapter<PictureParts>>();
 		availableAdapters.add(IProcessAdapter.PROCESS_TYPE_UNSELECTED, null); // ugly way, but it works.
 		availableAdapters.add(IProcessAdapter.PROCESS_TYPE_THREAD, new ProcessThreadAdapter());
+		availableAdapters.add(IProcessAdapter.PROCESS_TYPE_FORKJOIN, new ProcessWorkerAdapter());
 		
 		// adding available algorithms
 		availableAlgorithms = new ArrayList<AbstractAlgorithm>();

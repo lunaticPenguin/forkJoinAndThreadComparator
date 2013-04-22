@@ -94,7 +94,7 @@ public class MainWindowView extends AbstractView {
 		AbstractActionListener<MainWindowView> aPListener = new AlgorithmsProcessListener(this);
 		typesAlgorithmComboBox = new JComboBox<String>(new String[]{"Algorithm type", "Binarisation"}); // , "Convolution"
 		typesAlgorithmComboBox.addActionListener(aPListener);
-		typesProcessComboBox = new JComboBox<String>(new String[]{"Process type", "Thread"}); // , "ForkJoin"
+		typesProcessComboBox = new JComboBox<String>(new String[]{"Process type", "Thread", "ForkJoin"}); // , "ForkJoin"
 		typesProcessComboBox.addActionListener(aPListener);
 		
 		String[] tmpArrayWN = new String[22];
