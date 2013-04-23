@@ -8,6 +8,9 @@ import java.io.IOException;
 import javax.imageio.ImageIO;
 import javax.swing.JFileChooser;
 
+import process.IProcessAdapter;
+import algorithms.AbstractAlgorithm;
+
 import models.PictureParts;
 import models.ProcessManagerModel;
 
@@ -65,6 +68,15 @@ public class ChosenFileButtonListener extends AbstractActionListener<MainWindowV
 				model.setData(new PictureParts(tmpImg));
 				
 				Log.info(String.format("File chosen : %s", loadedFile.getPath()));
+				
+				// active process button if the file criteria is ok
+				if (parentView.getTypesAlgorithmComboBox().getSelectedIndex() != AbstractAlgorithm.ALGORITHM_TYPE_UNSELECTED
+						&& parentView.getTypesProcessComboBox().getSelectedIndex() != IProcessAdapter.PROCESS_TYPE_UNSELECTED
+						&& parentView.getNWComboBox().getSelectedIndex() != 0) {
+					if (parentView.getImageToDisplay() != null) {
+						parentView.getProcessButton().setEnabled(true);
+					}
+				}
 			}
 		}
 	}
