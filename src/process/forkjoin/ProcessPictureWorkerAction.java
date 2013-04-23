@@ -38,22 +38,32 @@ public class ProcessPictureWorkerAction extends AbstractWorkerAction<PicturePart
 	protected void compute() {
 		if (hasToBeDivided) {
 			ProcessPictureWorkerAction tmpWorker;
-			for (int i = 1 ; i < this.data.getPartsNumber() ; ++i) {
-				tmpWorker = (ProcessPictureWorkerAction) this.fork();
+			
+			int numberForks = this.data.getPartsNumber() - 1; // because the parent process IS a process
+			for (int i = 1 ; i < numberForks ; ++i) {
+				tmpWorker = new ProcessPictureWorkerAction();
 				tmpWorker.setAlgorithm(processAlgorithm);
-				tmpWorker.setHasToBeDivided(false); // we stop the recursivity on the first level
-				
 				tmpWorker.setData(data);
 				tmpWorker.setPartNumber(i);
+				tmpWorker.setHasToBeDivided(false); // we stop the recursivity on the first level
+				
+				// In advance of forking the new worker process,
+				// we store the worker into a list in order to join it later
 				subWorkers.add(tmpWorker);
-			}
-			processAlgorithm.setData(this.data.getPart(partNumber));
-			processAlgorithm.algo();
-			
-			// just wait a little bit for the result! :)
-			for (ProcessPictureWorkerAction subWorker : subWorkers) {
-				subWorker.join();
+				tmpWorker.fork();
 			}
 		}
+		
+		// launch parent & child process (when their compute method will be call)
+		processAlgorithm.setData(this.data.getPart(partNumber));
+		processAlgorithm.algo();
+		
+		// then we join them
+		for (ProcessPictureWorkerAction subWorker : subWorkers) {
+			subWorker.join();
+		}
+		
+		// we clear the worker's list because they will be no more used
+		subWorkers.clear();
 	}
 }

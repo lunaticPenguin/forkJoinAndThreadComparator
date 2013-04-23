@@ -23,7 +23,6 @@ public abstract class AbstractWorkerAction<T> extends RecursiveAction {
 		try {
 			this.processAlgorithm = (AbstractAlgorithm) algorithm.clone();
 		} catch (CloneNotSupportedException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}

@@ -7,6 +7,7 @@ import models.PictureParts;
 
 /**
  * This class play a role of workers manager in addition to be an adapter instance.
+ * It use a threads pool through the ForkJoinPool class.
  * @author Corentin Legros
  *
  */
@@ -18,18 +19,21 @@ public class ProcessWorkerAdapter extends AbstractProcessAdapter<PictureParts> {
 	public ProcessWorkerAdapter() {
 		super();
 		workersPool = new ForkJoinPool(Runtime.getRuntime().availableProcessors());
-		worker = new ProcessPictureWorkerAction();
 	}
 	
 	@Override
 	public void execute() {
+		init();
 		workersPool.invoke(worker);
+		worker = null;
 	}
 
 	@Override
 	protected void init() {
-		System.out.println("Worker adapter has been called! :|");
-		execute();
+		worker = new ProcessPictureWorkerAction();
+		worker.setAlgorithm(processAlgorithm);
+		worker.setData(data);
+		worker.setPartNumber(0);
 	}
 
 }
