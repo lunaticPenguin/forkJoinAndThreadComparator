@@ -22,7 +22,8 @@ public class ProcessThreadAdapter extends AbstractProcessAdapter<PictureParts> {
 	protected void init() {
 		threads.clear();
 		ProcessPictureThread tmpRefThread;
-		for (int i = 0 ; i < data.getPartsNumber() ; ++i) {
+		int numberThreads = this.data.getPartsNumber() - 1; // because the parent process IS a process
+		for (int i = 0 ; i < numberThreads ; ++i) {
 			tmpRefThread = new ProcessPictureThread();
 			tmpRefThread.setAlgorithm(processAlgorithm);
 			tmpRefThread.setData(data);
@@ -33,7 +34,9 @@ public class ProcessThreadAdapter extends AbstractProcessAdapter<PictureParts> {
 
 	public void execute() {
 		init();
-		for (int i = 0 ; i < data.getPartsNumber() ; ++i) {
+		
+		int numberThreads = this.data.getPartsNumber() - 1; // because the parent process IS a process
+		for (int i = 0 ; i < numberThreads ; ++i) {
 			threads.get(i).start();
 		}
 	}
