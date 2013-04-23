@@ -97,7 +97,7 @@ public class MainWindowView extends AbstractView {
 		typesProcessComboBox = new JComboBox<String>(new String[]{"Process type", "Thread", "ForkJoin"}); // , "ForkJoin"
 		typesProcessComboBox.addActionListener(aPListener);
 		
-		String[] tmpArrayWN = new String[22];
+		String[] tmpArrayWN = new String[21];
 		tmpArrayWN[0] = "Workers number";
 		for (int i = 1 ; i < 21 ; ++i) {
 			tmpArrayWN[i] = String.valueOf(i);
