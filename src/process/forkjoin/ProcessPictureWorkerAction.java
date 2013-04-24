@@ -2,6 +2,8 @@ package process.forkjoin;
 
 import java.util.ArrayList;
 
+import algorithms.BinarisationAlgorithm;
+
 import models.PictureParts;
 
 public class ProcessPictureWorkerAction extends AbstractWorkerAction<PictureParts> {
@@ -47,7 +49,7 @@ public class ProcessPictureWorkerAction extends AbstractWorkerAction<PicturePart
 				tmpWorker.setPartNumber(i);
 				tmpWorker.setHasToBeDivided(false); // we stop the recursivity on the first level
 				
-				((BinarisationAlgorithm) tmpWorker.getAlgorithm()).setPartNumber(0); // used for reports
+				((BinarisationAlgorithm) tmpWorker.getAlgorithm()).setPartNumber(i); // used for reports
 				
 				// In advance of forking the new worker process,
 				// we store the worker into a list in order to join it later
