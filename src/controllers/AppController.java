@@ -1,6 +1,7 @@
 package controllers;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Observable;
 
 import algorithms.AbstractAlgorithm;
@@ -11,10 +12,13 @@ import process.IProcessAdapter;
 import process.ProcessThreadAdapter;
 import process.ProcessWorkerAdapter;
 
+import tools.Timer;
 import views.AbstractView;
+import views.MainWindowView;
 
 import models.AbstractModel;
 import models.PictureParts;
+import models.ProgressionContainer;
 
 public class AppController extends AbstractController {
 
@@ -38,6 +42,16 @@ public class AppController extends AbstractController {
 	 */
 	protected ArrayList<AbstractAlgorithm> availableAlgorithms;
 	
+	protected Timer timer;
+	
+	protected int testNumber;
+	
+	protected int tmpLastPpercent;
+	
+	/**
+	 * Reference on the container used for reports
+	 */
+	protected ProgressionContainer progressionContainer;
 	
 	public AppController(AbstractModel model, AbstractView view) {
 		super(model, view);
@@ -52,6 +66,10 @@ public class AppController extends AbstractController {
 		availableAlgorithms = new ArrayList<AbstractAlgorithm>();
 		availableAlgorithms.add(AbstractAlgorithm.ALGORITHM_TYPE_UNSELECTED, null); // ugly way, but it works.
 		availableAlgorithms.add(AbstractAlgorithm.ALGORITHM_TYPE_BINARISATION, new BinarisationAlgorithm());
+		
+		timer = Timer.getInstance();
+		testNumber = 0;
+		tmpLastPpercent = 0;
 	}
 	
 	/**
@@ -98,11 +116,35 @@ public class AppController extends AbstractController {
 		// this line is here in order to set a valid algorithm state to clone it and then change the working part (for each thread/worker)
 		availableAlgorithms.get(algorithmType).setData(((PictureParts) refModel.getData()).getPart(0));
 		adapter.setAlgorithm(availableAlgorithms.get(algorithmType));
+		
+		
+		++testNumber;
+		
+		timer.start();
 		adapter.execute();
+		timer.stop();
+		
+		// debug
+		HashMap<String, ArrayList<ArrayList<HashMap<Integer, Integer>>>> tmp;
+		tmp = timer.getThreadProcessData();
 	}
 	
 	public void update(Observable o, Object arg) {
 		// here will be the timer management
 		// and all statistics generation of timing measures
+
+		progressionContainer = (ProgressionContainer) arg;
+		System.out.println("update test : " + progressionContainer.getPercent());
+		if (progressionContainer.getPercent() > tmpLastPpercent) {
+			System.out.println("adding some data");
+			timer.addData(
+					processType,
+					((MainWindowView) refView).getChosenFileLabel().getText(),
+					testNumber,
+					progressionContainer.getPartNumber(),
+					progressionContainer.getPercent()
+			);
+			tmpLastPpercent += timer.getPickUpRange();
+		}
 	}
 }
