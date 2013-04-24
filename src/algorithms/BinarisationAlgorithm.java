@@ -15,6 +15,7 @@ public class BinarisationAlgorithm extends AbstractAlgorithm {
 	protected int[] pixelsValue;
 	protected int threshold;
 	protected int indice;
+	protected int partNumber;
 	
 	public BinarisationAlgorithm() {
 		super();
@@ -41,7 +42,8 @@ public class BinarisationAlgorithm extends AbstractAlgorithm {
 					((BufferedImage) data).setRGB(j, i, Color.WHITE.getRGB());
 				}
 			}
-			this.dataContainer.update();
+			//System.out.println(partNumber + " -> (" + i + ") / (" + heightPicture + ") => " + ((float)i / (float) heightPicture));
+			this.dataContainer.update(partNumber, (int) ((float)i / (float) heightPicture * 100f));
 		}
 		return ((BufferedImage) data);
 	}
@@ -91,5 +93,9 @@ public class BinarisationAlgorithm extends AbstractAlgorithm {
 	      	Log.warn("Fail during attempt algorithm cloning");
 	    }
 		return algorithm;
+	}
+	
+	public void setPartNumber(int intPartNumber) {
+		partNumber = intPartNumber;
 	}
 }

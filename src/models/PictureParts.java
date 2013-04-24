@@ -24,6 +24,7 @@ public class PictureParts extends AbstractDataContainer<BufferedImage> {
 	 */
 	public PictureParts(BufferedImage picture) {
 		data = picture;
+		progressionContainer = new ProgressionContainer();
 	}
 	
 	
