@@ -95,7 +95,7 @@ final public class Timer {
 		if (data.get(file).get(test_num).isEmpty() || data.get(file).get(test_num).size() + 1 < part_num) {
 			data.get(file).get(test_num).set(part_num, getNewData());
 		}
-		data.get(file).get(test_num).get(part_num).put(Integer.valueOf((int)(System.currentTimeMillis() - timestart)), Integer.valueOf(percent));
+		data.get(file).get(test_num).get(part_num).put(Integer.valueOf((int)(System.nanoTime() - timestart)), Integer.valueOf(percent));
 	}
 	
 	/*
@@ -134,7 +134,7 @@ final public class Timer {
 	 * Initialize and start timer
 	 */
 	public void start() {
-		timestart = System.currentTimeMillis();
+		timestart = System.nanoTime();
 	}
 	
 	/**
@@ -142,7 +142,7 @@ final public class Timer {
 	 */
 	public void stop() {
 		if (timestart != 0) {
-			timeend = System.currentTimeMillis();
+			timeend = System.nanoTime();
 		}
 	}
 	
