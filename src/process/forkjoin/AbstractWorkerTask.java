@@ -23,9 +23,16 @@ public abstract class AbstractWorkerTask<T> extends RecursiveTask<Object> {
 		try {
 			this.processAlgorithm = (AbstractAlgorithm) algorithm.clone();
 		} catch (CloneNotSupportedException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+	}
+	
+	/**
+	 * This method allow developers to get the specified algorithm
+	 * @return AbstractAlgorithm
+	 */
+	public AbstractAlgorithm getAlgorithm() {
+		return processAlgorithm;
 	}
 	
 	/**
