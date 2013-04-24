@@ -33,6 +33,6 @@ public class ProcessManagerModel extends AbstractModel {
 	 */
 	public void update(Observable o, Object arg) {
 		setChanged();
-		notifyObservers();
+		notifyObservers(arg);
 	}
 }
