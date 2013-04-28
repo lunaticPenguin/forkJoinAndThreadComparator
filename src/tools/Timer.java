@@ -50,6 +50,28 @@ final public class Timer {
 	private int range;
 	
 	
+	
+	/**
+	 * Simple reference to establish a shortcut in the code (this reference always
+	 * points on the current test (both thread/forkJoin)
+	 */
+	private ArrayList<ArrayList<HashMap<Integer, Integer>>> currentTestReference;
+	
+	/**
+	 * Counter which indicates the current test number for the thread processes
+	 */
+	private int currentThreadTest;
+	
+	/**
+	 * Counter which indicates the current test number for the fork join processes
+	 */
+	private int currentForkJoinTest;
+	
+	/**
+	 * Indicates the last used process type
+	 */
+	private int currentProcessType;
+	
 	/**
 	 * Get global timer instance
 	 * @return
@@ -63,50 +85,35 @@ final public class Timer {
 	
 	
 	private Timer() {
-		init(threadData);
+		init();
 	}
 	
 	/**
 	 * This method is generically able to store a new pair key-value in the internal data.
 	 * 
-	 * @param HashMap<String, ArrayList<ArrayList<HashMap<Integer, Integer>>>> data
-	 * @param String file
-	 * @param Integer test_num
 	 * @param Integer part_num
 	 * @param int percent
 	 */
-	public void addData(int dataType, String file, Integer test_num, Integer part_num, int percent) {
+	public void addData(Integer part_num, int percent) {
 		
-		HashMap<String, ArrayList<ArrayList<HashMap<Integer, Integer>>>> data;
-		if (dataType == IProcessAdapter.PROCESS_TYPE_THREAD) {
-			data = threadData;
-		} else {
-			data = fjData;
-		}
-		
-		if (!data.containsKey(file)) {
-			data.put(file, getNewTest());
-		}
-		
-		if (data.get(file).isEmpty() || data.get(file).size() + 1 < test_num) {
-			data.get(file).set(test_num, getNewPart());
-		}
-		
-		if (data.get(file).get(test_num).isEmpty() || data.get(file).get(test_num).size() + 1 < part_num) {
-			data.get(file).get(test_num).set(part_num, getNewData());
-		}
-		data.get(file).get(test_num).get(part_num).put(Integer.valueOf((int)(System.nanoTime() - timestart)), Integer.valueOf(percent));
+		int currentTestIndex = currentProcessType == IProcessAdapter.PROCESS_TYPE_THREAD ? currentThreadTest : currentForkJoinTest;
+		currentTestReference.get(currentTestIndex).get(part_num).put(Integer.valueOf((int)(System.nanoTime() - timestart)), Integer.valueOf(percent));
 	}
 	
 	/*
 	 * This method allow to generically initialize internal data containers
 	 * @param HashMap<String, ArrayList<ArrayList<HashMap<Integer, Integer>>>> data
 	 */
-	private void init(HashMap<String, ArrayList<ArrayList<HashMap<Integer, Integer>>>> data) {
-		data = new HashMap<String, ArrayList<ArrayList<HashMap<Integer, Integer>>>>();
+	private void init() {
+		fjData = new HashMap<String, ArrayList<ArrayList<HashMap<Integer, Integer>>>>();
+		threadData = new HashMap<String, ArrayList<ArrayList<HashMap<Integer, Integer>>>>();
+		
 		timestart = 0;
 		timeend = 0;
 		range = 15;
+		
+		currentThreadTest = 0;
+		currentForkJoinTest = 0;
 	}
 	
 	/*
@@ -118,9 +125,12 @@ final public class Timer {
 	
 	/*
 	 * Get a new data container relative to a part (thread/worker) data
+	 * 
+	 * @param int nbPart number threads/workers to create
 	 */
-	private ArrayList<HashMap<Integer, Integer>> getNewPart() {
-		return new ArrayList<HashMap<Integer, Integer>>();
+	private ArrayList<HashMap<Integer, Integer>> getNewPart(int nbPart) {
+		nbPart = nbPart <= 0 ? nbPart = 20 : nbPart;
+		return new ArrayList<HashMap<Integer, Integer>>(nbPart);
 	}
 	
 	/*
@@ -132,8 +142,31 @@ final public class Timer {
 	
 	/**
 	 * Initialize and start timer
+	 * 
+	 * @param int dataType type of processes whose results have to be stored
+	 * @param String file name of the file which is treated
+	 * @param int nbPart number of the thread/workers used in the current test
 	 */
-	public void start() {
+	public void start(int dataType, String file, int nbPart) {
+		
+		currentProcessType = dataType;
+		int currentTestIndex = currentProcessType == IProcessAdapter.PROCESS_TYPE_THREAD ? currentThreadTest : currentForkJoinTest;
+		HashMap<String, ArrayList<ArrayList<HashMap<Integer, Integer>>>> data;
+		if (currentProcessType == IProcessAdapter.PROCESS_TYPE_THREAD) {
+			data = threadData;
+		} else {
+			data = fjData;
+		}
+		
+		currentTestReference = getNewTest();
+		data.put(file, currentTestReference);
+		
+		currentTestReference.add(getNewPart(nbPart));
+		
+		for (int i = 0 ; i < nbPart ; ++i) {
+			currentTestReference.get(currentTestIndex).add(getNewData());
+		}
+		
 		timestart = System.nanoTime();
 	}
 	
@@ -143,6 +176,13 @@ final public class Timer {
 	public void stop() {
 		if (timestart != 0) {
 			timeend = System.nanoTime();
+			
+			// changing test index
+			if (currentProcessType == IProcessAdapter.PROCESS_TYPE_THREAD) {
+				++currentThreadTest;
+			} else {
+				++currentForkJoinTest;
+			}
 		}
 	}
 	
@@ -164,8 +204,8 @@ final public class Timer {
 		timestart = 0;
 		timeend = 0;
 		
-		init(threadData);
-		init(fjData);
+		init();
+		init();
 	}
 	
 	/*

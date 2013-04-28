@@ -120,13 +120,9 @@ public class AppController extends AbstractController {
 		
 		++testNumber;
 		
-		timer.start();
+		timer.start(processType, ((MainWindowView) refView).getChosenFileLabel().getText(), ((MainWindowView) refView).getNWComboBox().getSelectedIndex() + 1);
 		adapter.execute();
 		timer.stop();
-		
-		// debug
-		HashMap<String, ArrayList<ArrayList<HashMap<Integer, Integer>>>> tmp;
-		tmp = timer.getThreadProcessData();
 	}
 	
 	public void update(Observable o, Object arg) {
@@ -136,13 +132,9 @@ public class AppController extends AbstractController {
 		progressionContainer = (ProgressionContainer) arg;
 		System.out.println("update test : " + progressionContainer.getPercent());
 		if (progressionContainer.getPercent() > tmpLastPpercent) {
-			System.out.println("adding some data");
 			timer.addData(
-					processType,
-					((MainWindowView) refView).getChosenFileLabel().getText(),
-					testNumber,
-					progressionContainer.getPartNumber(),
-					progressionContainer.getPercent()
+				progressionContainer.getPartNumber(),
+				progressionContainer.getPercent()
 			);
 			tmpLastPpercent += timer.getPickUpRange();
 		}
