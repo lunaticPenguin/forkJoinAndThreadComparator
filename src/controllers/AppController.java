@@ -1,7 +1,6 @@
 package controllers;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.Observable;
 
 import algorithms.AbstractAlgorithm;
@@ -44,8 +43,6 @@ public class AppController extends AbstractController {
 	
 	protected Timer timer;
 	
-	protected int testNumber;
-	
 	protected int tmpLastPpercent;
 	
 	/**
@@ -68,7 +65,6 @@ public class AppController extends AbstractController {
 		availableAlgorithms.add(AbstractAlgorithm.ALGORITHM_TYPE_BINARISATION, new BinarisationAlgorithm());
 		
 		timer = Timer.getInstance();
-		testNumber = 0;
 		tmpLastPpercent = 0;
 	}
 	
@@ -117,12 +113,10 @@ public class AppController extends AbstractController {
 		availableAlgorithms.get(algorithmType).setData(((PictureParts) refModel.getData()).getPart(0));
 		adapter.setAlgorithm(availableAlgorithms.get(algorithmType));
 		
-		
-		++testNumber;
-		
 		timer.start(processType, ((MainWindowView) refView).getChosenFileLabel().getText(), ((MainWindowView) refView).getNWComboBox().getSelectedIndex() + 1);
 		adapter.execute();
 		timer.stop();
+		((MainWindowView) refView).getExportButton().setEnabled(true);
 	}
 	
 	public void update(Observable o, Object arg) {

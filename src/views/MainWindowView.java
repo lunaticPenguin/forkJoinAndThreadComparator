@@ -16,6 +16,7 @@ import javax.swing.JPanel;
 import controllers.listeners.AbstractActionListener;
 import controllers.listeners.AlgorithmsProcessListener;
 import controllers.listeners.ChosenFileButtonListener;
+import controllers.listeners.ExportButtonListener;
 import controllers.listeners.ProcessButtonListener;
 import controllers.listeners.ResetButtonListener;
 
@@ -53,6 +54,7 @@ public class MainWindowView extends AbstractView {
 	protected JComboBox<String> typesProcessComboBox;
 	protected JComboBox<String> numberWorkersComboBox;
 	protected JButton processButton;
+	protected JButton exportButton;
 	
 	protected ImagePanel imagePanel;
 	protected BufferedImage imageToDisplay;
@@ -109,10 +111,15 @@ public class MainWindowView extends AbstractView {
 		processButton.setEnabled(false);
 		processButton.addActionListener(new ProcessButtonListener(this));
 		
+		exportButton = new JButton("Export");
+		exportButton.setEnabled(false);
+		exportButton.addActionListener(new ExportButtonListener(this));
+		
 		actionPanel.add(typesAlgorithmComboBox);
 		actionPanel.add(typesProcessComboBox);
 		actionPanel.add(numberWorkersComboBox);
 		actionPanel.add(processButton);
+		actionPanel.add(exportButton);
 		
 		
 		/*
@@ -144,7 +151,7 @@ public class MainWindowView extends AbstractView {
 		 */
 		mainFrame = new JFrame();
 		mainFrame.setTitle("Compare performance of forkJoin vs thread");
-		mainFrame.setSize(800, 800);
+		mainFrame.setSize(1024, 800);
 		mainFrame.setLocationRelativeTo(null);
 		mainFrame.setContentPane(mainPanel);
 		mainFrame.setVisible(true);
@@ -275,6 +282,14 @@ public class MainWindowView extends AbstractView {
 	 */
 	public void renderImage() {
 		imagePanel.updateImage(imageToDisplay);
+	}
+	
+	/**
+	 * Get the export button
+	 * @return JButton the export button
+	 */
+	public JButton getExportButton() {
+		return exportButton;
 	}
 
 	
