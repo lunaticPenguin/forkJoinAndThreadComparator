@@ -43,7 +43,7 @@ public class AppController extends AbstractController {
 	
 	protected Timer timer;
 	
-	protected int tmpLastPpercent;
+	protected int tmpLastPercent;
 	
 	/**
 	 * Reference on the container used for reports
@@ -65,7 +65,7 @@ public class AppController extends AbstractController {
 		availableAlgorithms.add(AbstractAlgorithm.ALGORITHM_TYPE_BINARISATION, new BinarisationAlgorithm());
 		
 		timer = Timer.getInstance();
-		tmpLastPpercent = 0;
+		tmpLastPercent = 0;
 	}
 	
 	/**
@@ -125,12 +125,12 @@ public class AppController extends AbstractController {
 
 		progressionContainer = (ProgressionContainer) arg;
 		System.out.println("update test : " + progressionContainer.getPercent());
-		if (progressionContainer.getPercent() > tmpLastPpercent) {
+		if (progressionContainer.getPercent() > tmpLastPercent) {
 			timer.addData(
 				progressionContainer.getPartNumber(),
 				progressionContainer.getPercent()
 			);
-			tmpLastPpercent += timer.getPickUpRange();
+			tmpLastPercent += timer.getPickUpRange();
 		}
 	}
 }
