@@ -46,12 +46,20 @@ public class ExportResultsSettingsView extends AbstractView {
 			HashMap<String, ArrayList<ArrayList<HashMap<Integer, Integer>>>> forkJoinData) {
 
 		Set<String> filenamesForThread = threadData.keySet();
-		Set<String> filenamesForForkJoin = threadData.keySet();
+		Set<String> filenamesForForkJoin = forkJoinData.keySet();
 		Iterator<String> it;
 		
 		JComboBox<String> tmpComboBox;
 		tmpComboBox = new JComboBox<String>();
 		tmpComboBox.setVisible(false);
+		tmpComboBox.setSize(50, 15);
+		
+		// add empty combobox for display consistency
+		JComboBox<String> objEmptyComboBox = new JComboBox<String>();
+		objEmptyComboBox.addItem("No available file");
+		objEmptyComboBox.setSize(50, 15);
+		objEmptyComboBox.setEnabled(false);
+		fileResultsToExport.add(objEmptyComboBox);
 		
 		it = filenamesForThread.iterator();
 		while (it.hasNext()) {
@@ -63,6 +71,7 @@ public class ExportResultsSettingsView extends AbstractView {
 		
 		tmpComboBox = new JComboBox<String>();
 		tmpComboBox.setVisible(false);
+		tmpComboBox.setSize(50, 15);
 		
 		it = filenamesForForkJoin.iterator();
 		while (it.hasNext()) {
@@ -81,11 +90,12 @@ public class ExportResultsSettingsView extends AbstractView {
 		mainPanel.add(processChoice);
 		mainPanel.add(fileResultsToExport.get(0));
 		mainPanel.add(fileResultsToExport.get(1));
+		mainPanel.add(fileResultsToExport.get(2));
 		mainPanel.add(exportButton);
 		
 		mainFrame = new JFrame();
 		mainFrame.setTitle("Export data");
-		mainFrame.setSize(250, 95);
+		mainFrame.setSize(400, 95);
 		mainFrame.setLocationRelativeTo(getParentView().getMainFrame());
 		mainFrame.setContentPane(mainPanel);
 		mainFrame.setVisible(true);

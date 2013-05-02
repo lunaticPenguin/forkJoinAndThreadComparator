@@ -20,17 +20,18 @@ public class ExportResultsSettingsProcessChoiceActionListener extends AbstractAc
 	
 	public void actionPerformed(ActionEvent e) {
 		
-		int activeIndex = parentView.getProcessChoice().getSelectedIndex() - 1;
-		if (activeIndex != -1) {
-			int inactiveIndex = activeIndex == 0 ? 1 : 0;
-			parentView.getAllFilenamesStored().get(activeIndex).setEnabled(true);
+		int activeIndex = parentView.getProcessChoice().getSelectedIndex();
+		if (activeIndex != 0 && parentView.getAllFilenamesStored().get(activeIndex).getItemCount() != 0) {
+			
+			int inactiveIndex = activeIndex == 1 ? 2 : 1;
+			parentView.getAllFilenamesStored().get(0).setVisible(false);
 			parentView.getAllFilenamesStored().get(activeIndex).setVisible(true);
 			parentView.getAllFilenamesStored().get(inactiveIndex).setVisible(false);
 			parentView.getExportButton().setEnabled(true);
 		} else {
 			parentView.getAllFilenamesStored().get(0).setVisible(true);
 			parentView.getAllFilenamesStored().get(1).setVisible(false);
-			parentView.getAllFilenamesStored().get(0).setEnabled(false);
+			parentView.getAllFilenamesStored().get(2).setVisible(false);
 			parentView.getExportButton().setEnabled(false);
 		}
 	}
