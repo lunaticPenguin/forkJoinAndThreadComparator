@@ -1,7 +1,12 @@
 package controllers.listeners;
 
 import java.awt.event.ActionEvent;
+import java.util.ArrayList;
 
+import javax.swing.JComboBox;
+
+import tools.Timer;
+import views.ExportResultsCsvView;
 import views.ExportResultsSettingsView;
 
 
@@ -18,6 +23,19 @@ public class ExportResultsChoosenProcessActionListener extends AbstractActionLis
 	}
 	
 	public void actionPerformed(ActionEvent arg0) {
-		System.out.println("I should use a textarea window with a csv string :)");
+		
+		ExportResultsCsvView exportCsvView = new ExportResultsCsvView(null);
+		exportCsvView.setParentView(parentView);
+		
+		// search for selected filename
+		String selectedFilename = null;
+		ArrayList<JComboBox<String>> objComboBoxList = parentView.getAllFilenamesStored();
+		for (JComboBox<String> tmpComboBox : objComboBoxList) {
+			if (tmpComboBox.isVisible()) {
+				selectedFilename = (String) tmpComboBox.getSelectedItem();
+			}
+		}
+		
+		exportCsvView.init(Timer.getInstance().getDataAsString(parentView.getProcessChoice().getSelectedIndex(), selectedFilename));
 	}
 }

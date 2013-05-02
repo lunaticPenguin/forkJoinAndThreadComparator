@@ -278,4 +278,16 @@ final public class Timer {
 	public int getPickUpRange() {
 		return range;
 	}
+	
+	/**
+	 * This method format specified internal data to csv string format used to 
+	 * generate statistics into other software like Calc or Excel.
+	 * 
+	 * @param int typeData
+	 * @param String filename
+	 * @return
+	 */
+	public String getDataAsString(int typeData, String filename) {
+		return "huhu! poutoux sur les aisselles";
+	}
 }
