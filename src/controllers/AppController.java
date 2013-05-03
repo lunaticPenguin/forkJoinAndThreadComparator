@@ -65,6 +65,7 @@ public class AppController extends AbstractController {
 		availableAlgorithms.add(AbstractAlgorithm.ALGORITHM_TYPE_BINARISATION, new BinarisationAlgorithm());
 		
 		timer = Timer.getInstance();
+		timer.setPickUpRange(5);
 		tmpLastPercent = 0;
 	}
 	
@@ -124,8 +125,7 @@ public class AppController extends AbstractController {
 		// and all statistics generation of timing measures
 
 		progressionContainer = (ProgressionContainer) arg;
-		System.out.println("update test : " + progressionContainer.getPercent());
-		if (progressionContainer.getPercent() > tmpLastPercent) {
+		if (progressionContainer.getPercent() == 0 || progressionContainer.getPercent() > tmpLastPercent || progressionContainer.getPercent() >= 100) {
 			timer.addData(
 				progressionContainer.getPartNumber(),
 				progressionContainer.getPercent()
