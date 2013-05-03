@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.Set;
 
 import process.IProcessAdapter;
@@ -72,6 +73,8 @@ final public class Timer {
 	 */
 	private int currentProcessType;
 	
+	public final String CSV_SEPARATOR = ";";
+	
 	/**
 	 * Get global timer instance
 	 * @return
@@ -97,7 +100,7 @@ final public class Timer {
 	public void addData(Integer part_num, int percent) {
 		
 		int currentTestIndex = currentProcessType == IProcessAdapter.PROCESS_TYPE_THREAD ? currentThreadTest : currentForkJoinTest;
-		currentTestReference.get(currentTestIndex).get(part_num).put(Integer.valueOf((int)(System.nanoTime() - timestart)), Integer.valueOf(percent));
+		currentTestReference.get(currentTestIndex).get(part_num).put(Integer.valueOf(percent), Integer.valueOf((int)(System.nanoTime() - timestart)));
 	}
 	
 	/*
@@ -288,6 +291,85 @@ final public class Timer {
 	 * @return
 	 */
 	public String getDataAsString(int typeData, String filename) {
-		return "huhu! poutoux sur les aisselles";
+		
+		//int currentTestIndex = typeData == IProcessAdapter.PROCESS_TYPE_THREAD ? currentThreadTest : currentForkJoinTest;
+		String processTypeName = typeData == IProcessAdapter.PROCESS_TYPE_THREAD ? "Thread" : "ForkJoin";
+		HashMap<String, ArrayList<ArrayList<HashMap<Integer, Integer>>>> data;
+		if (typeData == IProcessAdapter.PROCESS_TYPE_THREAD) {
+			data = threadData;
+		} else {
+			data = fjData;
+		}
+		
+		StringBuilder sbDataTitle = new StringBuilder();
+		StringBuilder sbData = new StringBuilder();
+		StringBuilder sbDataHeader = new StringBuilder();
+		
+		if (data.containsKey(filename)) {
+			
+			data.get(filename);
+			
+			ArrayList<HashMap<Integer, Integer>> testTmp;
+			Iterator<ArrayList<HashMap<Integer, Integer>>> testIterator = data.get(filename).iterator();
+			
+			Iterator<HashMap<Integer, Integer>> entitiesIterator;
+			
+			HashMap<Integer, Integer> dataTmp;
+			
+			Iterator<Entry<Integer, Integer>> progressIterator;
+			Entry<Integer, Integer> dataPairAssociationTmp;
+			
+			int testCounter = 1;
+			int entityCounter = 1;
+			int percentsCounter = 0;
+			
+			ArrayList<ArrayList<Integer>> formattedData = new ArrayList<ArrayList<Integer>>();
+			
+			sbDataHeader.append(processTypeName).append("#");
+			int nbValues = 100 / range;
+			for (int i = 0 ; i < nbValues ; ++i) {
+				sbDataHeader.append(CSV_SEPARATOR).append(percentsCounter);
+				percentsCounter += range;
+			}
+			
+			// for each test, rendering of all test data specifications
+			while (testIterator.hasNext()) {
+				
+				testTmp = testIterator.next();
+				entitiesIterator = testTmp.iterator();
+				
+				sbData.setLength(0);
+				sbDataTitle.setLength(0);
+				sbDataTitle.append("\n\nTest #").append(testCounter).append(" -- ").append(processTypeName).append("\n");
+				
+				entityCounter = 1;
+				
+				formattedData.clear();
+				
+				// for all test entities
+				while (entitiesIterator.hasNext()) {
+					
+					dataTmp = entitiesIterator.next();
+					progressIterator = dataTmp.entrySet().iterator();
+					
+					sbData.append(entityCounter);
+					
+					while (progressIterator.hasNext()) {
+						dataPairAssociationTmp = progressIterator.next();
+						sbData.append(CSV_SEPARATOR).append(dataPairAssociationTmp.getValue());
+					}
+					sbData.append("\n");
+					++entityCounter;
+				}
+				++testCounter;
+			}
+		} else {
+			System.out.println("A problem occured with this data (no luck!) :(");
+		}
+		
+		return sbDataTitle.append("\n")
+				.append(sbDataHeader).append("\n")
+				.append(sbData).append("\n")
+				.toString();
 	}
 }
