@@ -42,8 +42,8 @@ public class ExportResultsSettingsView extends AbstractView {
 	 * @param HashMap<String, ArrayList<ArrayList<HashMap<Integer, Integer>>>> threadData (to get the String keys)
 	 * @param HashMap<String, ArrayList<ArrayList<HashMap<Integer, Integer>>>> forkJoinData (to get the String keys)
 	 */
-	public void init(HashMap<String, ArrayList<ArrayList<HashMap<Integer, Integer>>>> threadData, 
-			HashMap<String, ArrayList<ArrayList<HashMap<Integer, Integer>>>> forkJoinData) {
+	public void init(HashMap<String, ArrayList<ArrayList<ArrayList<Integer>>>> threadData, 
+			HashMap<String, ArrayList<ArrayList<ArrayList<Integer>>>> forkJoinData) {
 
 		Set<String> filenamesForThread = threadData.keySet();
 		Set<String> filenamesForForkJoin = forkJoinData.keySet();
