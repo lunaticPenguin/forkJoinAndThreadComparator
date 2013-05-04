@@ -47,14 +47,15 @@ public class PictureParts extends AbstractDataContainer<BufferedImage> {
 		
 		int posTileY;
 		
-		for(int numTileY = 0 ; numTileY < nbParts ; numTileY++) {
+		for(int numTileY = 0 ; numTileY < nbParts ; ++numTileY) {
 			
 			posTileY = heightPart * numTileY;
 			parts[numTileY] = data.getSubimage(0, posTileY, data.getWidth(), heightPart);
 		}
 		
+		// resizing last sub-picture part for taking care of the last potential pixel rows
 		if (hasAdditionalPart) {
-			parts[nbParts] = data.getSubimage(0, heightPart * (nbParts), data.getWidth(), data.getHeight() % heightPart);
+			parts[nbParts - 1] = data.getSubimage(0, heightPart * (nbParts - 1), data.getWidth(), heightPart + data.getHeight() % heightPart);
 		}
 	}
 	
