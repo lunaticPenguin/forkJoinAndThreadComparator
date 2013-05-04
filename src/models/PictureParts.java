@@ -38,13 +38,10 @@ public class PictureParts extends AbstractDataContainer<BufferedImage> {
 		boolean hasAdditionalPart = false;
 		if (data.getHeight() % heightPart != 0) {
 			hasAdditionalPart = true;
-			nbParts += 1;
 		}
 
 		parts = new BufferedImage[nbParts];
 		progressionContainers = new ProgressionContainer[nbParts];
-		
-		nbParts = (hasAdditionalPart) ? nbParts - 1 : nbParts;
 		
 		int posTileY;
 		
@@ -99,15 +96,6 @@ public class PictureParts extends AbstractDataContainer<BufferedImage> {
 	 * @param int nbParts
 	 */
 	public void setPartsNumber(int nbParts) {
-		clear();
 		init(nbParts);
-	}
-	
-	/*
-	 * This method clear internal data for another use.
-	 */
-	protected void clear() {
-		parts = null;
-		progressionContainers = null;
 	}
 }

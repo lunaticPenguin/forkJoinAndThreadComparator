@@ -114,7 +114,7 @@ public class AppController extends AbstractController {
 		availableAlgorithms.get(algorithmType).setData(((PictureParts) refModel.getData()).getPart(0));
 		adapter.setAlgorithm(availableAlgorithms.get(algorithmType));
 		
-		timer.start(processType, ((MainWindowView) refView).getChosenFileLabel().getText(), ((MainWindowView) refView).getNWComboBox().getSelectedIndex() + 1);
+		timer.start(processType, ((MainWindowView) refView).getChosenFileLabel().getText(), ((MainWindowView) refView).getNWComboBox().getSelectedIndex());
 		adapter.execute();
 		timer.stop();
 		((MainWindowView) refView).getExportButton().setEnabled(true);

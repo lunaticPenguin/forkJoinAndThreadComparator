@@ -58,14 +58,21 @@ final public class Timer {
 	private ArrayList<ArrayList<ArrayList<Integer>>> currentTestReference;
 	
 	/**
-	 * Counter which indicates the current test number for the thread processes
+	 * Counter which indicates the current test number for the chosen file
+	 * using the thread processes
 	 */
-	private int currentThreadTest;
+	private HashMap<String, Integer> currentThreadTest;
 	
 	/**
-	 * Counter which indicates the current test number for the fork join processes
+	 * Counter which indicates the current test number for chosen file
+	 * using the fork join processes
 	 */
-	private int currentForkJoinTest;
+	private HashMap<String, Integer> currentForkJoinTest;
+	
+	/**
+	 * Store the current filename
+	 */
+	private String currentFilename;
 	
 	/**
 	 * Indicates the last used process type
@@ -97,10 +104,11 @@ final public class Timer {
 	 * @param int percent
 	 */
 	public void addData(Integer part_num) {
-		int currentTestIndex = currentProcessType == IProcessAdapter.PROCESS_TYPE_THREAD ? currentThreadTest : currentForkJoinTest;
 		
-		if (currentTestReference.get(currentTestIndex).get(part_num).size() < 100 / range) {
-			currentTestReference.get(currentTestIndex).get(part_num).add(Integer.valueOf((int)(System.nanoTime() - timestart)));
+		HashMap<String, Integer> currentFileTestIndex = currentProcessType == IProcessAdapter.PROCESS_TYPE_THREAD ? currentThreadTest : currentForkJoinTest;
+		
+		if (currentTestReference.get(currentFileTestIndex.get(currentFilename)).get(part_num).size() < 100 / range) {
+			currentTestReference.get(currentFileTestIndex.get(currentFilename)).get(part_num).add(Integer.valueOf((int)(System.nanoTime() - timestart)));
 		}
 	}
 	
@@ -116,8 +124,8 @@ final public class Timer {
 		timeend = 0;
 		range = 15;
 		
-		currentThreadTest = 0;
-		currentForkJoinTest = 0;
+		currentThreadTest = new HashMap<String, Integer>();
+		currentForkJoinTest = new HashMap<String, Integer>();
 	}
 	
 	/*
@@ -153,8 +161,9 @@ final public class Timer {
 	 */
 	public void start(int dataType, String file, int nbPart) {
 		
+		currentFilename = file;
 		currentProcessType = dataType;
-		int currentTestIndex = currentProcessType == IProcessAdapter.PROCESS_TYPE_THREAD ? currentThreadTest : currentForkJoinTest;
+		HashMap<String, Integer> currentFileTestIndex = currentProcessType == IProcessAdapter.PROCESS_TYPE_THREAD ? currentThreadTest : currentForkJoinTest;
 		HashMap<String, ArrayList<ArrayList<ArrayList<Integer>>>> data;
 		if (currentProcessType == IProcessAdapter.PROCESS_TYPE_THREAD) {
 			data = threadData;
@@ -162,13 +171,21 @@ final public class Timer {
 			data = fjData;
 		}
 		
-		currentTestReference = getNewTest();
-		data.put(file, currentTestReference);
+		// if we had to create an entire new data structure
+		if (!currentFileTestIndex.containsKey(currentFilename)) {
+			currentFileTestIndex.put(currentFilename, 0);
+			currentTestReference = getNewTest();
+			data.put(currentFilename, currentTestReference);
+		} else {
+			int tmpIndex = currentFileTestIndex.get(currentFilename);
+			currentFileTestIndex.put(currentFilename, ++tmpIndex);
+			currentTestReference = data.get(currentFilename);
+		}
 		
 		currentTestReference.add(getNewPart(nbPart));
 		
 		for (int i = 0 ; i < nbPart ; ++i) {
-			currentTestReference.get(currentTestIndex).add(getNewData());
+			currentTestReference.get(currentFileTestIndex.get(currentFilename)).add(getNewData());
 		}
 		
 		timestart = System.nanoTime();
@@ -180,13 +197,6 @@ final public class Timer {
 	public void stop() {
 		if (timestart != 0) {
 			timeend = System.nanoTime();
-			
-			// changing test index
-			if (currentProcessType == IProcessAdapter.PROCESS_TYPE_THREAD) {
-				++currentThreadTest;
-			} else {
-				++currentForkJoinTest;
-			}
 		}
 	}
 	
@@ -322,8 +332,6 @@ final public class Timer {
 			int entityCounter = 1;
 			int percentsCounter = 0;
 			
-			ArrayList<ArrayList<Integer>> formattedData = new ArrayList<ArrayList<Integer>>();
-			
 			sbDataHeader.append("Percent progress").append("#");
 			int nbValues = 100 / range;
 			for (int i = 0 ; i < nbValues ; ++i) {
@@ -342,8 +350,6 @@ final public class Timer {
 				sbDataTitle.append("\n\nTest #").append(testCounter).append(" -- ").append(processTypeName).append("\n");
 				
 				entityCounter = 1;
-				
-				formattedData.clear();
 				
 				// for all test entities
 				while (entitiesIterator.hasNext()) {
