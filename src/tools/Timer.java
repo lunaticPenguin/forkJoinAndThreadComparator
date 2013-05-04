@@ -91,12 +91,12 @@ final public class Timer {
 	}
 	
 	/**
-	 * This method is generically able to store a new pair key-value in the internal data.
+	 * This method is generically able to store a new time value in the internal data.
 	 * 
 	 * @param Integer part_num
 	 * @param int percent
 	 */
-	public void addData(Integer part_num, int percent) {
+	public void addData(Integer part_num) {
 		
 		int currentTestIndex = currentProcessType == IProcessAdapter.PROCESS_TYPE_THREAD ? currentThreadTest : currentForkJoinTest;
 		currentTestReference.get(currentTestIndex).get(part_num).add(Integer.valueOf((int)(System.nanoTime() - timestart)));
@@ -136,7 +136,7 @@ final public class Timer {
 	}
 	
 	/*
-	 * Get a new data container relative to a pair (timing & percent progress) data
+	 * Get a new data container relative to a percent progress
 	 */
 	private ArrayList<Integer> getNewData() {
 		return new ArrayList<Integer>();
