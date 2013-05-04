@@ -97,9 +97,11 @@ final public class Timer {
 	 * @param int percent
 	 */
 	public void addData(Integer part_num) {
-		
 		int currentTestIndex = currentProcessType == IProcessAdapter.PROCESS_TYPE_THREAD ? currentThreadTest : currentForkJoinTest;
-		currentTestReference.get(currentTestIndex).get(part_num).add(Integer.valueOf((int)(System.nanoTime() - timestart)));
+		
+		if (currentTestReference.get(currentTestIndex).get(part_num).size() < 100 / range) {
+			currentTestReference.get(currentTestIndex).get(part_num).add(Integer.valueOf((int)(System.nanoTime() - timestart)));
+		}
 	}
 	
 	/*
@@ -325,7 +327,7 @@ final public class Timer {
 			sbDataHeader.append("Percent progress").append("#");
 			int nbValues = 100 / range;
 			for (int i = 0 ; i < nbValues ; ++i) {
-				sbDataHeader.append(CSV_SEPARATOR).append(percentsCounter);
+				sbDataHeader.append(CSV_SEPARATOR).append(percentsCounter + range);
 				percentsCounter += range;
 			}
 			

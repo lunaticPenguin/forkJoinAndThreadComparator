@@ -15,6 +15,13 @@ public class ProgressionContainer {
 	protected int intPartNum;
 	
 	protected int percent;
+	
+	protected int lastPercent;
+	
+	public ProgressionContainer() {
+		percent = 0;
+		lastPercent = 0;
+	}
 
 	/**
 	 * @return the intPartNum
@@ -42,5 +49,19 @@ public class ProgressionContainer {
 	 */
 	public void setPercent(int percent) {
 		this.percent = percent;
+	}
+
+	/**
+	 * @return the lastPercent
+	 */
+	public int getLastPercent() {
+		return lastPercent;
+	}
+
+	/**
+	 * @param lastPercent the lastPercent to set
+	 */
+	public void setLastPercent(int lastPercent) {
+		this.lastPercent = lastPercent;
 	}
 }

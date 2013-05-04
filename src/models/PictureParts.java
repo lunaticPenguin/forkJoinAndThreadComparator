@@ -24,7 +24,6 @@ public class PictureParts extends AbstractDataContainer<BufferedImage> {
 	 */
 	public PictureParts(BufferedImage picture) {
 		data = picture;
-		progressionContainer = new ProgressionContainer();
 	}
 	
 	
@@ -43,6 +42,8 @@ public class PictureParts extends AbstractDataContainer<BufferedImage> {
 		}
 
 		parts = new BufferedImage[nbParts];
+		progressionContainers = new ProgressionContainer[nbParts];
+		
 		nbParts = (hasAdditionalPart) ? nbParts - 1 : nbParts;
 		
 		int posTileY;
@@ -51,6 +52,7 @@ public class PictureParts extends AbstractDataContainer<BufferedImage> {
 			
 			posTileY = heightPart * numTileY;
 			parts[numTileY] = data.getSubimage(0, posTileY, data.getWidth(), heightPart);
+			progressionContainers[numTileY] = new ProgressionContainer();
 		}
 		
 		// resizing last sub-picture part for taking care of the last potential pixel rows
@@ -97,6 +99,15 @@ public class PictureParts extends AbstractDataContainer<BufferedImage> {
 	 * @param int nbParts
 	 */
 	public void setPartsNumber(int nbParts) {
+		clear();
 		init(nbParts);
+	}
+	
+	/*
+	 * This method clear internal data for another use.
+	 */
+	protected void clear() {
+		parts = null;
+		progressionContainers = null;
 	}
 }
