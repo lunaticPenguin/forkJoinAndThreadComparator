@@ -41,7 +41,7 @@ public class ProcessPictureWorkerAction extends AbstractWorkerAction<PicturePart
 		if (hasToBeDivided) {
 			ProcessPictureWorkerAction tmpWorker;
 			
-			int numberForks = this.data.getPartsNumber() - 1; // because the parent process IS a process
+			int numberForks = this.data.getPartsNumber();
 			for (int i = 1 ; i < numberForks ; ++i) {
 				tmpWorker = new ProcessPictureWorkerAction();
 				tmpWorker.setAlgorithm(processAlgorithm);
