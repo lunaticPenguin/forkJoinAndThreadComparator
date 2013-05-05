@@ -38,22 +38,23 @@ public class PictureParts extends AbstractDataContainer<BufferedImage> {
 		boolean hasAdditionalPart = false;
 		if (data.getHeight() % heightPart != 0) {
 			hasAdditionalPart = true;
-			nbParts += 1;
 		}
 
 		parts = new BufferedImage[nbParts];
-		nbParts = (hasAdditionalPart) ? nbParts - 1 : nbParts;
+		progressionContainers = new ProgressionContainer[nbParts];
 		
 		int posTileY;
 		
-		for(int numTileY = 0 ; numTileY < nbParts ; numTileY++) {
+		for(int numTileY = 0 ; numTileY < nbParts ; ++numTileY) {
 			
 			posTileY = heightPart * numTileY;
 			parts[numTileY] = data.getSubimage(0, posTileY, data.getWidth(), heightPart);
+			progressionContainers[numTileY] = new ProgressionContainer();
 		}
 		
+		// resizing last sub-picture part for taking care of the last potential pixel rows
 		if (hasAdditionalPart) {
-			parts[nbParts] = data.getSubimage(0, heightPart * (nbParts), data.getWidth(), data.getHeight() % heightPart);
+			parts[nbParts - 1] = data.getSubimage(0, heightPart * (nbParts - 1), data.getWidth(), heightPart + data.getHeight() % heightPart);
 		}
 	}
 	

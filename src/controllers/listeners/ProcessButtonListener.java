@@ -31,7 +31,7 @@ public class ProcessButtonListener extends AbstractActionListener<MainWindowView
 		controller.setProcessType(parentView.getTypesProcessComboBox().getSelectedIndex());
 		
 		// set threads/workers number
-		((PictureParts) controller.getRefModel().getData()).setPartsNumber((parentView.getNWComboBox().getSelectedIndex()));
+		((PictureParts) controller.getRefModel().getData()).setPartsNumber(parentView.getNWComboBox().getSelectedIndex());
 		
 		// then, the process is launched (through a delegation to the specified adapter which handle 
 		// the (previously chosen) algorithm work and the appropriate data choice

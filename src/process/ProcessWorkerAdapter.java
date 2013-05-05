@@ -2,6 +2,8 @@ package process;
 
 import java.util.concurrent.ForkJoinPool;
 
+import algorithms.BinarisationAlgorithm;
+
 import process.forkjoin.ProcessPictureWorkerAction;
 import models.PictureParts;
 
@@ -34,6 +36,10 @@ public class ProcessWorkerAdapter extends AbstractProcessAdapter<PictureParts> {
 		worker.setAlgorithm(processAlgorithm);
 		worker.setData(data);
 		worker.setPartNumber(0);
+		
+
+		((BinarisationAlgorithm) worker.getAlgorithm()).setPartNumber(0); // used for reports
+		
 	}
 
 }

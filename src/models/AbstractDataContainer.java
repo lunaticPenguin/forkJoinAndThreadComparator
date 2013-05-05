@@ -14,10 +14,18 @@ public abstract class AbstractDataContainer<T> extends Observable {
 	protected T data;
 	
 	/**
+	 * Reference on an array object in charge of transporting the sampled data
+	 * for each data parts
+	 */
+	protected ProgressionContainer[] progressionContainers;
+	
+	/**
 	 * Allow to update the data container in order to delegate the captured data update signal
 	 */
-	public void update() {
+	public void update(int partNum, int percent) {
+		progressionContainers[partNum].setPartNumber(partNum);
+		progressionContainers[partNum].setPercent(percent);
 		setChanged();
-		notifyObservers();
+		notifyObservers(progressionContainers[partNum]);
 	}
 }

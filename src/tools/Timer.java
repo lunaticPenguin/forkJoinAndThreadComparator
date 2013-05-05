@@ -22,12 +22,12 @@ final public class Timer {
 	/**
 	 * Data relative to thread processes type
 	 */
-	private HashMap<String, ArrayList<ArrayList<HashMap<Integer, Integer>>>> threadData;
+	private HashMap<String, ArrayList<ArrayList<ArrayList<Integer>>>> threadData;
 	
 	/**
 	 * Data relative to fork/join processes type
 	 */
-	private HashMap<String, ArrayList<ArrayList<HashMap<Integer, Integer>>>> fjData;
+	private HashMap<String, ArrayList<ArrayList<ArrayList<Integer>>>> fjData;
 	
 	/**
 	 * Instance of timer (singleton inside!)
@@ -50,6 +50,37 @@ final public class Timer {
 	private int range;
 	
 	
+	
+	/**
+	 * Simple reference to establish a shortcut in the code (this reference always
+	 * points on the current test (both thread/forkJoin)
+	 */
+	private ArrayList<ArrayList<ArrayList<Integer>>> currentTestReference;
+	
+	/**
+	 * Counter which indicates the current test number for the chosen file
+	 * using the thread processes
+	 */
+	private HashMap<String, Integer> currentThreadTest;
+	
+	/**
+	 * Counter which indicates the current test number for chosen file
+	 * using the fork join processes
+	 */
+	private HashMap<String, Integer> currentForkJoinTest;
+	
+	/**
+	 * Store the current filename
+	 */
+	private String currentFilename;
+	
+	/**
+	 * Indicates the last used process type
+	 */
+	private int currentProcessType;
+	
+	public final String CSV_SEPARATOR = ";";
+	
 	/**
 	 * Get global timer instance
 	 * @return
@@ -63,78 +94,101 @@ final public class Timer {
 	
 	
 	private Timer() {
-		init(threadData);
+		init();
 	}
 	
 	/**
-	 * This method is generically able to store a new pair key-value in the internal data.
+	 * This method is generically able to store a new time value in the internal data.
 	 * 
-	 * @param HashMap<String, ArrayList<ArrayList<HashMap<Integer, Integer>>>> data
-	 * @param String file
-	 * @param Integer test_num
 	 * @param Integer part_num
 	 * @param int percent
 	 */
-	public void addData(int dataType, String file, Integer test_num, Integer part_num, int percent) {
+	public void addData(Integer part_num) {
 		
-		HashMap<String, ArrayList<ArrayList<HashMap<Integer, Integer>>>> data;
-		if (dataType == IProcessAdapter.PROCESS_TYPE_THREAD) {
-			data = threadData;
-		} else {
-			data = fjData;
-		}
+		HashMap<String, Integer> currentFileTestIndex = currentProcessType == IProcessAdapter.PROCESS_TYPE_THREAD ? currentThreadTest : currentForkJoinTest;
 		
-		if (!data.containsKey(file)) {
-			data.put(file, getNewTest());
+		if (currentTestReference.get(currentFileTestIndex.get(currentFilename)).get(part_num).size() < 100 / range) {
+			currentTestReference.get(currentFileTestIndex.get(currentFilename)).get(part_num).add(Integer.valueOf((int)(System.nanoTime() - timestart)));
 		}
-		
-		if (data.get(file).isEmpty() || data.get(file).size() + 1 < test_num) {
-			data.get(file).set(test_num, getNewPart());
-		}
-		
-		if (data.get(file).get(test_num).isEmpty() || data.get(file).get(test_num).size() + 1 < part_num) {
-			data.get(file).get(test_num).set(part_num, getNewData());
-		}
-		data.get(file).get(test_num).get(part_num).put(Integer.valueOf((int)(System.currentTimeMillis() - timestart)), Integer.valueOf(percent));
 	}
 	
 	/*
 	 * This method allow to generically initialize internal data containers
-	 * @param HashMap<String, ArrayList<ArrayList<HashMap<Integer, Integer>>>> data
+	 * @param HashMap<String, ArrayList<ArrayList<ArrayList<Integer>>>> data
 	 */
-	private void init(HashMap<String, ArrayList<ArrayList<HashMap<Integer, Integer>>>> data) {
-		data = new HashMap<String, ArrayList<ArrayList<HashMap<Integer, Integer>>>>();
+	private void init() {
+		fjData = new HashMap<String, ArrayList<ArrayList<ArrayList<Integer>>>>();
+		threadData = new HashMap<String, ArrayList<ArrayList<ArrayList<Integer>>>>();
+		
 		timestart = 0;
 		timeend = 0;
 		range = 15;
+		
+		currentThreadTest = new HashMap<String, Integer>();
+		currentForkJoinTest = new HashMap<String, Integer>();
 	}
 	
 	/*
 	 * Get a new data container relative to a test (start launch) data
 	 */
-	private ArrayList<ArrayList<HashMap<Integer, Integer>>> getNewTest() {
-		return new ArrayList<ArrayList<HashMap<Integer, Integer>>>();
+	private ArrayList<ArrayList<ArrayList<Integer>>> getNewTest() {
+		return new ArrayList<ArrayList<ArrayList<Integer>>>();
 	}
 	
 	/*
 	 * Get a new data container relative to a part (thread/worker) data
+	 * 
+	 * @param int nbPart number threads/workers to create
 	 */
-	private ArrayList<HashMap<Integer, Integer>> getNewPart() {
-		return new ArrayList<HashMap<Integer, Integer>>();
+	private ArrayList<ArrayList<Integer>> getNewPart(int nbPart) {
+		nbPart = nbPart <= 0 ? nbPart = 20 : nbPart;
+		return new ArrayList<ArrayList<Integer>>(nbPart);
 	}
 	
 	/*
-	 * Get a new data container relative to a pair (timing & percent progress) data
+	 * Get a new data container relative to a percent progress
 	 */
-	private HashMap<Integer, Integer> getNewData() {
-		return new HashMap<Integer, Integer>();
+	private ArrayList<Integer> getNewData() {
+		return new ArrayList<Integer>();
 	}
 	
 	/**
 	 * Initialize and start timer
+	 * 
+	 * @param int dataType type of processes whose results have to be stored
+	 * @param String file name of the file which is treated
+	 * @param int nbPart number of the thread/workers used in the current test
 	 */
-	public void start() {
-		timestart = System.currentTimeMillis();
+	public void start(int dataType, String file, int nbPart) {
+		
+		currentFilename = file;
+		currentProcessType = dataType;
+		HashMap<String, Integer> currentFileTestIndex = currentProcessType == IProcessAdapter.PROCESS_TYPE_THREAD ? currentThreadTest : currentForkJoinTest;
+		HashMap<String, ArrayList<ArrayList<ArrayList<Integer>>>> data;
+		if (currentProcessType == IProcessAdapter.PROCESS_TYPE_THREAD) {
+			data = threadData;
+		} else {
+			data = fjData;
+		}
+		
+		// if we had to create an entire new data structure
+		if (!currentFileTestIndex.containsKey(currentFilename)) {
+			currentFileTestIndex.put(currentFilename, 0);
+			currentTestReference = getNewTest();
+			data.put(currentFilename, currentTestReference);
+		} else {
+			int tmpIndex = currentFileTestIndex.get(currentFilename);
+			currentFileTestIndex.put(currentFilename, ++tmpIndex);
+			currentTestReference = data.get(currentFilename);
+		}
+		
+		currentTestReference.add(getNewPart(nbPart));
+		
+		for (int i = 0 ; i < nbPart ; ++i) {
+			currentTestReference.get(currentFileTestIndex.get(currentFilename)).add(getNewData());
+		}
+		
+		timestart = System.nanoTime();
 	}
 	
 	/**
@@ -142,7 +196,7 @@ final public class Timer {
 	 */
 	public void stop() {
 		if (timestart != 0) {
-			timeend = System.currentTimeMillis();
+			timeend = System.nanoTime();
 		}
 	}
 	
@@ -164,24 +218,24 @@ final public class Timer {
 		timestart = 0;
 		timeend = 0;
 		
-		init(threadData);
-		init(fjData);
+		init();
+		init();
 	}
 	
 	/*
 	 * Clear all specified internal values (manually, because I think the JVM's GC sucks)
-	 * @param HashMap<String, ArrayList<ArrayList<HashMap<Integer, Integer>>>> data The specified data
+	 * @param HashMap<String, ArrayList<ArrayList<ArrayList<Integer>>>> data The specified data
 	 */
-	private void clearInternalData(HashMap<String, ArrayList<ArrayList<HashMap<Integer, Integer>>>> data) {
+	private void clearInternalData(HashMap<String, ArrayList<ArrayList<ArrayList<Integer>>>> data) {
 		
-		Set<Map.Entry<String, ArrayList<ArrayList<HashMap<Integer, Integer>>>>> dataSet = data.entrySet();
-		Iterator<Map.Entry<String, ArrayList<ArrayList<HashMap<Integer, Integer>>>>> itDataSet = dataSet.iterator();
+		Set<Map.Entry<String, ArrayList<ArrayList<ArrayList<Integer>>>>> dataSet = data.entrySet();
+		Iterator<Map.Entry<String, ArrayList<ArrayList<ArrayList<Integer>>>>> itDataSet = dataSet.iterator();
 		
-		ArrayList<ArrayList<HashMap<Integer, Integer>>> tmpTestAL;
-		Iterator<ArrayList<HashMap<Integer, Integer>>> itTestAL;
+		ArrayList<ArrayList<ArrayList<Integer>>> tmpTestAL;
+		Iterator<ArrayList<ArrayList<Integer>>> itTestAL;
 		
-		ArrayList<HashMap<Integer, Integer>> tmpPartAL;
-		Iterator<HashMap<Integer, Integer>> itPartAL;
+		ArrayList<ArrayList<Integer>> tmpPartAL;
+		Iterator<ArrayList<Integer>> itPartAL;
 		
 		while (itDataSet.hasNext()) {
 			tmpTestAL = itDataSet.next().getValue();
@@ -204,7 +258,7 @@ final public class Timer {
 	 * Get all internal data relative to the thread processes
 	 * @return
 	 */
-	public HashMap<String, ArrayList<ArrayList<HashMap<Integer, Integer>>>> getThreadProcessData() {
+	public HashMap<String, ArrayList<ArrayList<ArrayList<Integer>>>> getThreadProcessData() {
 		return threadData;
 	}
 	
@@ -212,7 +266,7 @@ final public class Timer {
 	 * Get all internal data relative to the forkjoin processes
 	 * @return
 	 */
-	public HashMap<String, ArrayList<ArrayList<HashMap<Integer, Integer>>>> getForkJoinProcessData() {
+	public HashMap<String, ArrayList<ArrayList<ArrayList<Integer>>>> getForkJoinProcessData() {
 		return fjData;
 	}
 	
@@ -237,5 +291,86 @@ final public class Timer {
 	 */
 	public int getPickUpRange() {
 		return range;
+	}
+	
+	/**
+	 * This method format specified internal data to csv string format used to 
+	 * generate statistics into other software like Calc or Excel.
+	 * 
+	 * @param int typeData
+	 * @param String filename
+	 * @return
+	 */
+	public String getDataAsString(int typeData, String filename) {
+		
+		String processTypeName = typeData == IProcessAdapter.PROCESS_TYPE_THREAD ? "Thread" : "ForkJoin";
+		HashMap<String, ArrayList<ArrayList<ArrayList<Integer>>>> data;
+		if (typeData == IProcessAdapter.PROCESS_TYPE_THREAD) {
+			data = threadData;
+		} else {
+			data = fjData;
+		}
+		
+		StringBuilder sbContent = new StringBuilder();
+		StringBuilder sbDataTitle = new StringBuilder();
+		StringBuilder sbDataHeader = new StringBuilder();
+		
+		if (data.containsKey(filename)) {
+			
+			ArrayList<ArrayList<Integer>> testTmp;
+			Iterator<ArrayList<ArrayList<Integer>>> testIterator = data.get(filename).iterator();
+			
+			Iterator<ArrayList<Integer>> entitiesIterator;
+			
+			ArrayList<Integer> dataTmp;
+			
+			Iterator<Integer> progressIterator;
+			
+			int testCounter = 1;
+			int entityCounter = 1;
+			int percentsCounter = 0;
+			
+			sbDataHeader.append("Percent progress").append("#");
+			int nbValues = 100 / range;
+			for (int i = 0 ; i < nbValues ; ++i) {
+				sbDataHeader.append(CSV_SEPARATOR).append(percentsCounter + range);
+				percentsCounter += range;
+			}
+			
+			// for each test, rendering of all test data specifications
+			while (testIterator.hasNext()) {
+				
+				testTmp = testIterator.next();
+				entitiesIterator = testTmp.iterator();
+				
+				sbDataTitle.setLength(0);
+				sbDataTitle.append("\n\nTest #").append(testCounter).append(" -- ").append(processTypeName);
+				
+				sbContent.append(sbDataTitle).append("\n\n");
+				sbContent.append(sbDataHeader).append("\n");
+				
+				entityCounter = 1;
+				
+				// for all test entities
+				while (entitiesIterator.hasNext()) {
+					
+					dataTmp = entitiesIterator.next();
+					progressIterator = dataTmp.iterator();
+					sbContent.append(entityCounter);
+					
+					while (progressIterator.hasNext()) {
+						sbContent.append(CSV_SEPARATOR).append(progressIterator.next());
+					}
+					sbContent.append("\n");
+					++entityCounter;
+				}
+
+				++testCounter;
+			}
+		} else {
+			System.out.println("A problem occured with this data (no luck!) :(");
+		}
+		
+		return sbContent.toString();
 	}
 }

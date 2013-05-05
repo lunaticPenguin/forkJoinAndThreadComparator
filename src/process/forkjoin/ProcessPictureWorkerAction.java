@@ -2,6 +2,8 @@ package process.forkjoin;
 
 import java.util.ArrayList;
 
+import algorithms.BinarisationAlgorithm;
+
 import models.PictureParts;
 
 public class ProcessPictureWorkerAction extends AbstractWorkerAction<PictureParts> {
@@ -39,13 +41,15 @@ public class ProcessPictureWorkerAction extends AbstractWorkerAction<PicturePart
 		if (hasToBeDivided) {
 			ProcessPictureWorkerAction tmpWorker;
 			
-			int numberForks = this.data.getPartsNumber() - 1; // because the parent process IS a process
+			int numberForks = this.data.getPartsNumber();
 			for (int i = 1 ; i < numberForks ; ++i) {
 				tmpWorker = new ProcessPictureWorkerAction();
 				tmpWorker.setAlgorithm(processAlgorithm);
 				tmpWorker.setData(data);
 				tmpWorker.setPartNumber(i);
 				tmpWorker.setHasToBeDivided(false); // we stop the recursivity on the first level
+				
+				((BinarisationAlgorithm) tmpWorker.getAlgorithm()).setPartNumber(i); // used for reports
 				
 				// In advance of forking the new worker process,
 				// we store the worker into a list in order to join it later

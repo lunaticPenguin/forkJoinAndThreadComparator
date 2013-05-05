@@ -28,6 +28,14 @@ public abstract class AbstractWorkerAction<T> extends RecursiveAction {
 	}
 	
 	/**
+	 * This method allow developers to get the specified algorithm
+	 * @return AbstractAlgorithm
+	 */
+	public AbstractAlgorithm getAlgorithm() {
+		return processAlgorithm;
+	}
+	
+	/**
 	 * This method allow developers to bind the data to an adapter,
 	 * in order to send this data into an algorithm
 	 * @param T data

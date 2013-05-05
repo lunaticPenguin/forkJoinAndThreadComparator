@@ -11,6 +11,7 @@ public abstract class AbstractView implements Observer {
 	
 	protected AbstractModel refModel;
 	protected AbstractController refController;
+	protected AbstractView parentView;
 	
 	/**
 	 * UI main element
@@ -19,7 +20,9 @@ public abstract class AbstractView implements Observer {
 	
 	public AbstractView(AbstractModel model) {
 		refModel = model;
-		refModel.addObserver(this);
+		if (refModel != null) {
+			refModel.addObserver(this);
+		}
 	}
 
 	/**
@@ -38,5 +41,27 @@ public abstract class AbstractView implements Observer {
 		return refController;
 	}
 	
+	/**
+	 * Set the parent view, if it exists.
+	 * @param parentView
+	 */
+	public void setParentView(AbstractView parentView) {
+		this.parentView = parentView;
+	}
 	
+	/**
+	 * Get the parent view if specified
+	 * @return
+	 */
+	public AbstractView getParentView() {
+		return parentView;
+	}
+	
+	/**
+	 * Get the main frame of the current view
+	 * @return JFrame
+	 */
+	public JFrame getMainFrame() {
+		return mainFrame;
+	}
 }
