@@ -311,13 +311,11 @@ final public class Timer {
 			data = fjData;
 		}
 		
+		StringBuilder sbContent = new StringBuilder();
 		StringBuilder sbDataTitle = new StringBuilder();
-		StringBuilder sbData = new StringBuilder();
 		StringBuilder sbDataHeader = new StringBuilder();
 		
 		if (data.containsKey(filename)) {
-			
-			data.get(filename);
 			
 			ArrayList<ArrayList<Integer>> testTmp;
 			Iterator<ArrayList<ArrayList<Integer>>> testIterator = data.get(filename).iterator();
@@ -345,9 +343,11 @@ final public class Timer {
 				testTmp = testIterator.next();
 				entitiesIterator = testTmp.iterator();
 				
-				sbData.setLength(0);
 				sbDataTitle.setLength(0);
-				sbDataTitle.append("\n\nTest #").append(testCounter).append(" -- ").append(processTypeName).append("\n");
+				sbDataTitle.append("\n\nTest #").append(testCounter).append(" -- ").append(processTypeName);
+				
+				sbContent.append(sbDataTitle).append("\n\n");
+				sbContent.append(sbDataHeader).append("\n");
 				
 				entityCounter = 1;
 				
@@ -356,24 +356,21 @@ final public class Timer {
 					
 					dataTmp = entitiesIterator.next();
 					progressIterator = dataTmp.iterator();
-					
-					sbData.append(entityCounter);
+					sbContent.append(entityCounter);
 					
 					while (progressIterator.hasNext()) {
-						sbData.append(CSV_SEPARATOR).append(progressIterator.next());
+						sbContent.append(CSV_SEPARATOR).append(progressIterator.next());
 					}
-					sbData.append("\n");
+					sbContent.append("\n");
 					++entityCounter;
 				}
+
 				++testCounter;
 			}
 		} else {
 			System.out.println("A problem occured with this data (no luck!) :(");
 		}
 		
-		return sbDataTitle.append("\n")
-				.append(sbDataHeader).append("\n")
-				.append(sbData).append("\n")
-				.toString();
+		return sbContent.toString();
 	}
 }
