@@ -125,7 +125,9 @@ public class AppController extends AbstractController {
 		// and all statistics generation of timing measures
 
 		progressionContainer = (ProgressionContainer) arg;
-		if (progressionContainer.getPercent() == 0 || progressionContainer.getPercent() > progressionContainer.getLastPercent()) {
+		if (progressionContainer.getPercent() == 0 || progressionContainer.getPercent() > progressionContainer.getLastPercent()
+				|| 
+				(progressionContainer.getPercent() <= progressionContainer.getLastPercent() && progressionContainer.getPercent() >= 100 - timer.getPickUpRange())) {
 			timer.addData(
 				progressionContainer.getPartNumber()
 			);
