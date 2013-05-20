@@ -6,6 +6,17 @@ import views.AbstractView;
 
 import models.AbstractModel;
 
+/**
+ * Common controller definition.
+ * It implements the Observer interface in order to watch the model's 
+ * (PictureParts) changes.
+ * 
+ * @author Guillaume Cornet
+ * @author Corentin Legros
+ * 
+ * @see models.AbstractModel (/!\ be careful on this class, it is an unusual case)
+ * @see views.AbstractView
+ */
 public abstract class AbstractController implements Observer {
 	
 	/**

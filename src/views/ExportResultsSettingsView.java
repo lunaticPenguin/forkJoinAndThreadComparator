@@ -17,6 +17,14 @@ import controllers.listeners.ExportResultsSettingsProcessChoiceActionListener;
 
 import models.AbstractModel;
 
+/**
+ * This class defines the first export level window.
+ * It allows user to chose which data he wants to export, by chosing the file
+ * and the process type.
+ * 
+ * @author Guillaume Cornet
+ * @author Corentin Legros
+ */
 public class ExportResultsSettingsView extends AbstractView {
 	
 	/* GUI elements */

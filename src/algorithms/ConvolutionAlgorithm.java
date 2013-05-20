@@ -4,8 +4,9 @@ import java.awt.image.BufferedImage;
 
 /**
  * Algorithm which set some blur on a picture
+ * 
+ * @author Guillaume Cornet
  * @author Corentin Legros
- *
  */
 public class ConvolutionAlgorithm extends AbstractAlgorithm  {
 

@@ -8,6 +8,8 @@ import tools.Log;
 /**
  * Algorithm which transform a picture as a binary-color picture
  * using thresholding method.
+ * 
+ * @author Guillaume Cornet
  * @author Corentin Legros
  */
 public class BinarisationAlgorithm extends AbstractAlgorithm {

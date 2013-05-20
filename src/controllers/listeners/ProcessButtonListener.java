@@ -12,8 +12,8 @@ import views.MainWindowView;
  * The role this class has to ensure is to launch adequate processes which rights options
  * (algorithms & process type)
  * 
+ * @author Guillaume Cornet
  * @author Corentin Legros
- *
  */
 public class ProcessButtonListener extends AbstractActionListener<MainWindowView> {
 	

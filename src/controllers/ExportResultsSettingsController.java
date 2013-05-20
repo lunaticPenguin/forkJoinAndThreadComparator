@@ -8,6 +8,8 @@ import views.AbstractView;
 
 /**
  * This controller handle export of internal data.
+ * 
+ * @author Guillaume Cornet
  * @author Corentin Legros
  */
 public class ExportResultsSettingsController extends AbstractController {

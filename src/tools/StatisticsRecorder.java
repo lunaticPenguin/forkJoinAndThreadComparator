@@ -10,14 +10,17 @@ import process.IProcessAdapter;
 
 /**
  * This class is able to store multiple results from several tests.
- * It gains interests when it is used with another tool able to draw out these data (,
- * like a statistics generator :) ).
+ * It gains interests when it is used with another tool able to draw out these data (
+ * like a statistics generator (we mean Calc, or Excel for example) :) ).
  * 
  * For cause of simplicity of use, the implementation is made with the singleton pattern.
  * 
+ * /!\ Please note this is one of the most important class of this project.
+ * 
+ * @author Guillaume Cornet
  * @author Corentin Legros
  */
-final public class Timer {
+final public class StatisticsRecorder {
 
 	/**
 	 * Data relative to thread processes type
@@ -32,7 +35,7 @@ final public class Timer {
 	/**
 	 * Instance of timer (singleton inside!)
 	 */
-	private static Timer instance;
+	private static StatisticsRecorder instance;
 	
 	/**
 	 * Timestamp when the timer start
@@ -85,15 +88,15 @@ final public class Timer {
 	 * Get global timer instance
 	 * @return
 	 */
-	public static Timer getInstance() {
+	public static StatisticsRecorder getInstance() {
 		if (instance == null) {
-			instance = new Timer();
+			instance = new StatisticsRecorder();
 		}
 		return instance;
 	}
 	
 	
-	private Timer() {
+	private StatisticsRecorder() {
 		init();
 	}
 	

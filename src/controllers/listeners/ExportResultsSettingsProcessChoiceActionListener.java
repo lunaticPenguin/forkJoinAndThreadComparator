@@ -9,8 +9,8 @@ import views.ExportResultsSettingsView;
  * It changes the displayed list (files processed with threads method and
  * files processed with forkjoin method)
  * 
+ * @author Guillaume Cornet
  * @author Corentin Legros
- *
  */
 public class ExportResultsSettingsProcessChoiceActionListener extends AbstractActionListener<ExportResultsSettingsView> {
 	

@@ -2,7 +2,7 @@ package controllers.listeners;
 
 import java.awt.event.ActionEvent;
 
-import tools.Timer;
+import tools.StatisticsRecorder;
 import views.ExportResultsSettingsView;
 import views.MainWindowView;
 
@@ -10,8 +10,8 @@ import views.MainWindowView;
 /**
  * Listener called when the user decides to export stored data.
  * 
+ * @author Guillaume Cornet
  * @author Corentin Legros
- *
  */
 public class ExportButtonListener extends AbstractActionListener<MainWindowView> {
 	
@@ -22,6 +22,6 @@ public class ExportButtonListener extends AbstractActionListener<MainWindowView>
 	public void actionPerformed(ActionEvent e) {
 		ExportResultsSettingsView exportView = new ExportResultsSettingsView(null);
 		exportView.setParentView(parentView);
-		exportView.init(Timer.getInstance().getThreadProcessData(), Timer.getInstance().getForkJoinProcessData());
+		exportView.init(StatisticsRecorder.getInstance().getThreadProcessData(), StatisticsRecorder.getInstance().getForkJoinProcessData());
 	}
 }

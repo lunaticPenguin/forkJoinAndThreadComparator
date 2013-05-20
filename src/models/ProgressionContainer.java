@@ -4,6 +4,7 @@ package models;
  * This class is in charge of transporting data which are used for reports and statistics
  * from the process to the controller.
  * 
+ * @author Guillaume Cornet
  * @author Corentin Legros
  */
 public class ProgressionContainer {

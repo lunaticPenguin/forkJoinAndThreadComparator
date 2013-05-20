@@ -4,9 +4,10 @@
 package process;
 
 /**
- * Interface which introduce a generically a way to call a process regardless it's type
+ * Interface which introduce generically a way to call a process regardless it's type
+ * 
+ * @author Guillaume Cornet
  * @author Corentin Legros
- *
  */
 public interface IProcessAdapter<T> {
 	

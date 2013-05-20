@@ -9,8 +9,9 @@ import models.PictureParts;
 
 /**
  * This class play a role of threads manager in addition to be an adapter instance.
+ * 
+ * @author Guillaume Cornet
  * @author Corentin Legros
- *
  */
 public class ProcessThreadAdapter extends AbstractProcessAdapter<PictureParts> {
 	

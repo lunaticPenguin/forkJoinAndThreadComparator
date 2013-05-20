@@ -11,6 +11,7 @@ import views.MainWindowView;
  * Action listener dedicated to the jcombobox (Algorithms & Process management) in the MainWindowView
  * All views interactions with these widgets have to be handled here.
  * 
+ * @author Guillaume Cornet
  * @author Corentin Legros
  *
  */

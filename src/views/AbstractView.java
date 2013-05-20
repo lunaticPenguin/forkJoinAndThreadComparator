@@ -7,6 +7,16 @@ import javax.swing.JFrame;
 import models.AbstractModel;
 import controllers.AbstractController;
 
+/**
+ * This class defines a common view for all windows.
+ * It factorizes all common code.
+ * 
+ * @author Guillaume Cornet
+ * @author Corentin Legros
+ * 
+ * @see models.AbstractModel (/!\ be careful on this class, it is an unusual case)
+ * @see controllers.AbstractController
+ */
 public abstract class AbstractView implements Observer {
 	
 	protected AbstractModel refModel;
