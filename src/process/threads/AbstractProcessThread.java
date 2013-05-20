@@ -1,7 +1,19 @@
 package process.threads;
 
+import process.ProcessThreadAdapter;
 import algorithms.AbstractAlgorithm;
 
+/**
+ * This class defines an abstract code of a thread, which can be used by
+ * the a thread manager (its role is to wait (by the join() method call)
+ * the thread's result).
+ * 
+ * @author Guillaume Cornet
+ * @author Corentin Legros
+ *
+ * @param <T>
+ * @see ProcessThreadAdapter
+ */
 public abstract class AbstractProcessThread<T> extends Thread {
 	
 	protected AbstractAlgorithm processAlgorithm;

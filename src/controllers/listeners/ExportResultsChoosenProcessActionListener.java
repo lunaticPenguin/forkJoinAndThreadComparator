@@ -5,7 +5,7 @@ import java.util.ArrayList;
 
 import javax.swing.JComboBox;
 
-import tools.Timer;
+import tools.StatisticsRecorder;
 import views.ExportResultsCsvView;
 import views.ExportResultsSettingsView;
 
@@ -14,6 +14,7 @@ import views.ExportResultsSettingsView;
  * Listener used when the user has chosen the method and the filename
  * and has clicked on the "Export" button from the export window.
  * 
+ * @author Guillaume Cornet
  * @author Corentin Legros
  */
 public class ExportResultsChoosenProcessActionListener extends AbstractActionListener<ExportResultsSettingsView> {
@@ -36,6 +37,6 @@ public class ExportResultsChoosenProcessActionListener extends AbstractActionLis
 			}
 		}
 		
-		exportCsvView.init(Timer.getInstance().getDataAsString(parentView.getProcessChoice().getSelectedIndex(), selectedFilename));
+		exportCsvView.init(StatisticsRecorder.getInstance().getDataAsString(parentView.getProcessChoice().getSelectedIndex(), selectedFilename));
 	}
 }

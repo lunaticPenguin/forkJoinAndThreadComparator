@@ -6,6 +6,7 @@ import java.awt.event.ActionListener;
  * Listener on a generic view objects, allowing developers to easily creates a new one
  * and bound it to a view.
  * 
+ * @author Guillaume Cornet
  * @author Corentin Legros
  *
  * @param Custom view class <T>

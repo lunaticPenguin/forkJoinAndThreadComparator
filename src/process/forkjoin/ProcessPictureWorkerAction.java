@@ -6,6 +6,14 @@ import algorithms.BinarisationAlgorithm;
 
 import models.PictureParts;
 
+/**
+ * This class inherits from the AbstractWorkerAction with the template type
+ * fixed to the PictureParts type.
+ * So the data attribute is specified to the PictureParts type.
+ * 
+ * @author Guillaume Cornet
+ * @author Corentin Legros
+ */
 public class ProcessPictureWorkerAction extends AbstractWorkerAction<PictureParts> {
 	
 	/**

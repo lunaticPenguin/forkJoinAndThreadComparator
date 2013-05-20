@@ -5,6 +5,9 @@ import java.util.Observable;
 /**
  * Class in charge of containing computed data and delegate the update signal.
  * Then this signal is delegate to others observers like controllers and views.
+ * 
+ * @author Guillaume Cornet
+ * @author Corentin Legros
  */
 public abstract class AbstractDataContainer<T> extends Observable {
 

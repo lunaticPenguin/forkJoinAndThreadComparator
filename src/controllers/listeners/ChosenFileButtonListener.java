@@ -21,8 +21,9 @@ import views.filters.ImageFileFilter;
 /**
  * Action listener dedicated to the chosenFileButton (image choice) of the MainWindowView
  * The role this class has to handle the chose of a new image file when the user click on the loading button.
+ * 
+ * @author Guillaume Cornet
  * @author Corentin Legros
- *
  */
 public class ChosenFileButtonListener extends AbstractActionListener<MainWindowView>{
 

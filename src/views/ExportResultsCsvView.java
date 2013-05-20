@@ -21,9 +21,10 @@ import tools.Log;
 import models.AbstractModel;
 
 /**
- * This view allow user to save csv data format in the specified file he chooses.
+ * This view allows user to save csv data format in the specified file he chooses.
+ * 
+ * @author Guillaume Cornet
  * @author Corentin Legros
- *
  */
 
 public class ExportResultsCsvView extends AbstractView {

@@ -8,6 +8,8 @@ import views.MainWindowView;
  * from the main call.
  * 
  * @see main.Main
+ * 
+ * @author Guillaume Cornet
  * @author Corentin Legros
  */
 class App implements Runnable {

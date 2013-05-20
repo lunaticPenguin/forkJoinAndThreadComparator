@@ -3,6 +3,15 @@ package process;
 import models.AbstractDataContainer;
 import algorithms.AbstractAlgorithm;
 
+/**
+ * This class define a base of an adapter able to play the role of a manager.
+ * The goal is to use its adapter and manager abilities in child classes.
+ * 
+ * @author Guillaume Cornet
+ * @author Corentin Legros
+ *
+ * @param <T>
+ */
 public abstract class AbstractProcessAdapter<T> implements IProcessAdapter<T> {
 	
 	protected AbstractAlgorithm processAlgorithm;

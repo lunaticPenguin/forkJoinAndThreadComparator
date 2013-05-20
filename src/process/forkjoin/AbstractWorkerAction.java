@@ -4,6 +4,16 @@ import java.util.concurrent.RecursiveAction;
 
 import algorithms.AbstractAlgorithm;
 
+/**
+ * This class defines an abstract code of a worker, which can be used by
+ * the forkjoin framework.
+ * It inherits the RecursiveAction, so no result is returned at the end of 
+ * the compute() method call.
+ * 
+ * @author Guillaume Cornet
+ * @author Corentin Legros
+ * @param <T>
+ */
 public abstract class AbstractWorkerAction<T> extends RecursiveAction {
 
 	/**
