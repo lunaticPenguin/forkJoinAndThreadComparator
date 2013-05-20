@@ -11,7 +11,7 @@ import process.IProcessAdapter;
 import process.ProcessThreadAdapter;
 import process.ProcessWorkerAdapter;
 
-import tools.Timer;
+import tools.StatisticsRecorder;
 import views.AbstractView;
 import views.MainWindowView;
 
@@ -19,6 +19,12 @@ import models.AbstractModel;
 import models.PictureParts;
 import models.ProgressionContainer;
 
+/**
+ * The main controller of the application.
+ * 
+ * @author Guillaume Cornet
+ * @author Corentin Legros
+ */
 public class AppController extends AbstractController {
 
 	/**
@@ -41,7 +47,7 @@ public class AppController extends AbstractController {
 	 */
 	protected ArrayList<AbstractAlgorithm> availableAlgorithms;
 	
-	protected Timer timer;
+	protected StatisticsRecorder statisticsRecorder;
 	
 	protected int tmpLastPercent;
 	
@@ -64,8 +70,8 @@ public class AppController extends AbstractController {
 		availableAlgorithms.add(AbstractAlgorithm.ALGORITHM_TYPE_UNSELECTED, null); // ugly way, but it works.
 		availableAlgorithms.add(AbstractAlgorithm.ALGORITHM_TYPE_BINARISATION, new BinarisationAlgorithm());
 		
-		timer = Timer.getInstance();
-		timer.setPickUpRange(5);
+		statisticsRecorder = StatisticsRecorder.getInstance();
+		statisticsRecorder.setPickUpRange(5);
 		tmpLastPercent = 0;
 	}
 	
@@ -114,9 +120,9 @@ public class AppController extends AbstractController {
 		availableAlgorithms.get(algorithmType).setData(((PictureParts) refModel.getData()).getPart(0));
 		adapter.setAlgorithm(availableAlgorithms.get(algorithmType));
 		
-		timer.start(processType, ((MainWindowView) refView).getChosenFileLabel().getText(), ((MainWindowView) refView).getNWComboBox().getSelectedIndex());
+		statisticsRecorder.start(processType, ((MainWindowView) refView).getChosenFileLabel().getText(), ((MainWindowView) refView).getNWComboBox().getSelectedIndex());
 		adapter.execute();
-		timer.stop();
+		statisticsRecorder.stop();
 		((MainWindowView) refView).getExportButton().setEnabled(true);
 	}
 	
@@ -127,11 +133,11 @@ public class AppController extends AbstractController {
 		progressionContainer = (ProgressionContainer) arg;
 		if (progressionContainer.getPercent() == 0 || progressionContainer.getPercent() > progressionContainer.getLastPercent()
 				|| 
-				(progressionContainer.getPercent() <= progressionContainer.getLastPercent() && progressionContainer.getPercent() >= 100 - timer.getPickUpRange())) {
-			timer.addData(
+				(progressionContainer.getPercent() <= progressionContainer.getLastPercent() && progressionContainer.getPercent() >= 100 - statisticsRecorder.getPickUpRange())) {
+			statisticsRecorder.addData(
 				progressionContainer.getPartNumber()
 			);
-			progressionContainer.setLastPercent(progressionContainer.getLastPercent() + timer.getPickUpRange());
+			progressionContainer.setLastPercent(progressionContainer.getLastPercent() + statisticsRecorder.getPickUpRange());
 		}
 	}
 }

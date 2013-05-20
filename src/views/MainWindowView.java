@@ -25,18 +25,13 @@ import controllers.AppController;
 import models.AbstractModel;
 
 /**
- * Provide the main window of the application.
+ * This class provides the main window of the application.
  * It uses generic listeners to ensure a maximum of flexibility.
  * 
+ * @author Guillaume Cornet
  * @author Corentin Legros
  */
 public class MainWindowView extends AbstractView {
-	
-	/**
-	 * Static class fields which defined combobox array indexes
-	 */
-	
-	
 	
 	/**
 	 * UI elements

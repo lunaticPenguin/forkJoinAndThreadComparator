@@ -10,8 +10,9 @@ import models.PictureParts;
 /**
  * This class play a role of workers manager in addition to be an adapter instance.
  * It use a threads pool through the ForkJoinPool class.
+ * 
+ * @author Guillaume Cornet
  * @author Corentin Legros
- *
  */
 public class ProcessWorkerAdapter extends AbstractProcessAdapter<PictureParts> {
 

@@ -4,6 +4,12 @@ import java.awt.image.BufferedImage;
 
 import models.AbstractDataContainer;
 
+/**
+ * Common algorithm definition
+ * 
+ * @author Guillaume Cornet
+ * @author Corentin Legros
+ */
 public abstract class AbstractAlgorithm implements Cloneable {
 	
 	/**

@@ -5,9 +5,10 @@ import java.io.File;
 import javax.swing.filechooser.FileFilter;
 
 /**
- * Provide a filter which can be used in the JFileChooser when a user
+ * It provides a filter which can be used in the JFileChooser when a user
  * wants to specify an image file.
  * 
+ * @author Guillaume Cornet
  * @author Corentin Legros
  */
 public class ImageFileFilter extends FileFilter {

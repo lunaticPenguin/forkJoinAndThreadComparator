@@ -2,6 +2,13 @@ package process.threads;
 
 import models.PictureParts;
 
+/**
+ * This class is an implementation of the AbstractProcessThread.
+ * It is able to do a work on a BufferedImage (from a PictureParts).
+ * 
+ * @author Guillaume Cornet
+ * @author Corentin Legros
+ */
 public class ProcessPictureThread extends AbstractProcessThread<PictureParts> {
 	protected int partNumber;
 	

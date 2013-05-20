@@ -3,11 +3,13 @@ package models;
 import java.awt.image.BufferedImage;
 
 /**
- * Description : Classe permettant de g�n�rer un tableau avec les morceaux de l'image
+ * This class divides a picture in several parts. The goal is to have several
+ * processes. Each of these processes only have to handle a small part of 
+ * the original picture's file.
+ * This technical allows the process divide.
  * 
  * @author Guillaume Cornet
  * @author Corentin Legros
- *
  */
 public class PictureParts extends AbstractDataContainer<BufferedImage> {
 	

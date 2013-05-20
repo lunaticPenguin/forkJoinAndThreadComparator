@@ -4,9 +4,10 @@ import java.util.Observable;
 
 /**
  * Manager playing model role : it handles process orders and is able to fetch the picture data.
+ * 
+ * @author Guillaume Cornet
  * @author Corentin Legros
  */
-
 public class ProcessManagerModel extends AbstractModel {
 	
 	public ProcessManagerModel() {

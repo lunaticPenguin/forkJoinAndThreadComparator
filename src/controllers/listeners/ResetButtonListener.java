@@ -7,8 +7,8 @@ import views.MainWindowView;
  * Action listener dedicated to the resetButton (reset image source) of the MainWindowView
  * All views interactions with these widgets have to be handled here.
  * 
+ * @author Guillaume Cornet
  * @author Corentin Legros
- *
  */
 public class ResetButtonListener extends AbstractActionListener<MainWindowView> {
 	
