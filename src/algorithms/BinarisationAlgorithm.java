@@ -31,7 +31,7 @@ public class BinarisationAlgorithm extends AbstractAlgorithm {
 	}
 	
 	@Override
-	public BufferedImage algo() {
+	public Object algo() {
 		
 		int widthPicture = ((BufferedImage) data).getWidth();
 		int heightPicture = ((BufferedImage) data).getHeight();
@@ -44,7 +44,6 @@ public class BinarisationAlgorithm extends AbstractAlgorithm {
 					((BufferedImage) data).setRGB(j, i, Color.WHITE.getRGB());
 				}
 			}
-			//System.out.println(partNumber + " -> (" + i + ") / (" + heightPicture + ") => " + ((float)i / (float) heightPicture));
 			this.dataContainer.update(partNumber, (int) ((float)i / (float) heightPicture * 100f));
 		}
 		return ((BufferedImage) data);

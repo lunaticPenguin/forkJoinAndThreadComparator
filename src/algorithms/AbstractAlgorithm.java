@@ -1,7 +1,5 @@
 package algorithms;
 
-import java.awt.image.BufferedImage;
-
 import models.AbstractDataContainer;
 
 /**
@@ -33,7 +31,7 @@ public abstract class AbstractAlgorithm implements Cloneable {
 
 	public AbstractAlgorithm() {}
 
-	public abstract BufferedImage algo();
+	public abstract Object algo();
 	
 	public Object getData() {
 		return data;
