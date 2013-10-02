@@ -3,7 +3,7 @@ package main;
 import javax.swing.SwingUtilities;
 
 /**
- * ForkJoin/Thread comparison v1.2
+ * ForkJoin/Thread comparison v1.2.1
  * 
  * Main class (entry point in application)
  * 
